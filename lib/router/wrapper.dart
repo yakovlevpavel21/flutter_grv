@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:grv/presentation/screens/screens.dart';
-import '../../logic/auth/auth_bloc.dart';
+import 'package:grv/features/auth/logic/auth_bloc.dart';
+import 'package:grv/features/auth/ui/login_screen.dart';
+import 'package:grv/features/products/ui/products_screen.dart';
 
 class AppWrapper extends StatelessWidget {
   const AppWrapper({super.key});
@@ -11,7 +12,9 @@ class AppWrapper extends StatelessWidget {
     return BlocBuilder<AuthBloc, AuthState>(
       builder: (context, state) {
         if (state is AuthLoading || state is AuthInitial) {
-          return const SplashScreen();
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
         }
 
         if (state is AuthAuthenticated) {

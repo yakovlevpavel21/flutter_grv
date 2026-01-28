@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:grv/logic/product/product_bloc.dart';
-import 'package:grv/presentation/screens/product_detail_screen.dart';
-import 'package:grv/presentation/screens/product_form_screen.dart';
-import 'package:grv/presentation/widgets/product_card.dart';
+import 'package:grv/features/products/logic/product_bloc.dart';
+import 'package:grv/features/products/widgets/product_card.dart';
 
 enum ProductSort { name, quantity }
 

@@ -1,7 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:grv/data/models/models.dart';
-import 'package:grv/data/repos/material_repo.dart';
+import 'package:grv/features/materials/data/models/material.dart';
+import 'package:grv/features/materials/data/repos/material_repo.dart';
 
 part "material_event.dart"; 
 part "material_state.dart"; 

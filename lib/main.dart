@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:grv/data/repos/product_repo.dart';
-import 'package:grv/logic/product/product_bloc.dart';
+import 'package:grv/features/products/data/repos/product_repo.dart';
+import 'package:grv/features/products/logic/product_bloc.dart';
 import 'package:grv/router/router.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import 'logic/auth/auth_bloc.dart';
+import 'features/auth/logic/auth_bloc.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

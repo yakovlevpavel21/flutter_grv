@@ -1,4 +1,4 @@
-import 'package:grv/data/models/models.dart';
+import 'package:grv/features/materials/data/models/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class MaterialRepository {

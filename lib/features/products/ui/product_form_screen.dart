@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:grv/data/models/product.dart';
-import 'package:grv/logic/product/product_bloc.dart';
+import 'package:grv/features/products/data/models/product.dart';
+import 'package:grv/features/products/logic/product_bloc.dart';
 
 class ProductFormScreen extends StatefulWidget {
   final ProductModel? product;

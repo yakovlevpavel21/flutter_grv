@@ -1,6 +1,5 @@
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
-import 'package:grv/data/models/models.dart';
+import 'package:grv/features/products/data/models/product.dart';
 
 class ProductCard extends StatelessWidget {
   final ProductModel product;

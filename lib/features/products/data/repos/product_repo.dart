@@ -1,4 +1,4 @@
-import 'package:grv/data/models/models.dart';
+import 'package:grv/features/products/data/models/product.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class ProductRepository {
