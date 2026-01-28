@@ -100,9 +100,9 @@ class _ProductsScreenState extends State<ProductsScreen> {
           return GridView.builder(
             padding: const EdgeInsets.all(12),
             gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-              maxCrossAxisExtent: 150, // максимальная ширина одной карточки
-              mainAxisSpacing: 12,
-              crossAxisSpacing: 12,
+              maxCrossAxisExtent: 100, // максимальная ширина одной карточки
+              mainAxisSpacing: 6,
+              crossAxisSpacing: 6,
               childAspectRatio: 0.85, // высота/ширина карточки
             ),
             itemCount: products.length,

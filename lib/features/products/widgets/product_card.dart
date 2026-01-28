@@ -15,11 +15,11 @@ class ProductCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Material(
       elevation: 0,
-      borderRadius: BorderRadius.circular(16),
+      borderRadius: BorderRadius.circular(5),
       color: Colors.white,
       child: InkWell(
         onTap: onTap,
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(5),
         child: Padding(
           padding: const EdgeInsets.fromLTRB(0, 0, 0, 7),
           child: Column(
@@ -32,7 +32,7 @@ class ProductCard extends StatelessWidget {
                     // Фото
                     ClipRRect(
                       borderRadius: const BorderRadius.vertical(
-                        top: Radius.circular(16),
+                        top: Radius.circular(5),
                       ),
                       child: product.imageUrl != null
                           ? Image.network(
@@ -43,7 +43,7 @@ class ProductCard extends StatelessWidget {
                           : Container(
                               color: Colors.grey.shade200,
                               child: const Center(
-                                child: Icon(Icons.chair, size: 60),
+                                child: Icon(Icons.chair, size: 40),
                               ),
                             ),
                     ),
@@ -54,7 +54,7 @@ class ProductCard extends StatelessWidget {
                       right: 8,
                       child: Container(
                         padding:
-                            const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                            const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
                         decoration: BoxDecoration(
                           color: product.quantity == 0
                               ? const Color.fromARGB(255, 194, 66, 57)
@@ -66,7 +66,7 @@ class ProductCard extends StatelessWidget {
                           style: const TextStyle(
                             color: Colors.white,
                             fontWeight: FontWeight.bold,
-                            fontSize: 12,
+                            fontSize: 11,
                           ),
                         ),
                       ),
@@ -86,7 +86,7 @@ class ProductCard extends StatelessWidget {
                   textAlign: TextAlign.center,
                   overflow: TextOverflow.ellipsis,
                   style: const TextStyle(
-                    fontSize: 13,
+                    fontSize: 12,
                     fontWeight: FontWeight.w600,
                   ),
                 ),
