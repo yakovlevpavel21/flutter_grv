@@ -1,13 +1,35 @@
-import 'package:grv/features/products/data/models/product.dart';
+import 'package:grv/data/dtos/category.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-class ProductRepository {
+class HomeRepository {
   final supabase = Supabase.instance.client;
 
 
-  Future<List<Product>> fetchProducts() async {
-    final response = await supabase.from('products').select();
-    return (response as List).map((e) => Product.fromJson(e)).toList();
+  Future<List<CategoryDto>> fetchCategories() async {
+    final response = await supabase
+        .from('categories')
+        .select('''
+          name,
+          products (
+            name,
+            inventories (
+              variant,
+              stocks (
+                built,
+                packed,
+                color:colors ( id, name, rgb )
+              )
+            ),
+            semi_stocks (
+              quantity,
+              color:colors ( id, name, rgb )
+            )
+          )
+        ''');
+    print(response);
+    return (response as List)
+        .map((e) => CategoryDto.fromJson(e))
+        .toList();
   }
 
 

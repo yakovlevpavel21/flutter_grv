@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:grv/features/products/data/models/product.dart';
 
 class ProductCard extends StatelessWidget {
-  final ProductModel product;
+  final Product product;
   final VoidCallback onTap;
 
   const ProductCard({

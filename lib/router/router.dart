@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:grv/features/auth/ui/login_screen.dart';
+import 'package:grv/features/shipments/ui/shipments_screen.dart';
+import 'package:grv/features/home/ui/home_screen.dart';
+import 'package:grv/features/materials/ui/materials_screen.dart';
 import 'package:grv/features/products/data/models/product.dart';
 import 'package:grv/features/products/ui/product_detail_screen.dart';
 import 'package:grv/features/products/ui/product_form_screen.dart';
 import 'package:grv/features/products/ui/products_screen.dart';
+import 'package:grv/features/settings/ui/settings_screen.dart';
 import 'package:grv/router/shell.dart';
 import 'package:grv/router/wrapper.dart';
 
@@ -13,7 +17,7 @@ final router = GoRouter(
   routes: [
     GoRoute(
       path: '/',
-      builder: (context, state) => const AppWrapper(),
+      builder: (context, state) => const AuthWrapper(),
       routes: [
         GoRoute(
           path: 'login',
@@ -30,7 +34,7 @@ final router = GoRouter(
               routes: [
                 GoRoute(
                   path: 'home',
-                  builder: (_, __) => const ProductsScreen(),
+                  builder: (_, __) => const HomeWrapper(),
                 ),
               ],
             ),
@@ -39,8 +43,8 @@ final router = GoRouter(
             StatefulShellBranch(
               routes: [
                 GoRoute(
-                  path: 'history',
-                  builder: (_, __) => const ProductsScreen(),
+                  path: 'shipments',
+                  builder: (_, __) => const ShipmentsScreen(),
                 ),
               ],
             ),
@@ -59,8 +63,15 @@ final router = GoRouter(
                 GoRoute(
                   path: 'products/:id',
                   builder: (context, state) {
-                    final product = state.extra as ProductModel;
+                    final product = state.extra as Product;
                     return ProductDetailScreen(product: product);
+                  },
+                ),
+                GoRoute(
+                  path: 'products/:id/edit',
+                  builder: (context, state) {
+                    final product = state.extra as Product;
+                    return ProductFormScreen(product: product);
                   },
                 ),
               ],
@@ -71,7 +82,7 @@ final router = GoRouter(
               routes: [
                 GoRoute(
                   path: 'materials',
-                  builder: (_, __) => const ProductsScreen(),
+                  builder: (_, __) => const MaterialsScreen(),
                 ),
               ],
             ),
@@ -81,7 +92,7 @@ final router = GoRouter(
               routes: [
                 GoRoute(
                   path: 'settings',
-                  builder: (_, __) => const ProductsScreen(),
+                  builder: (_, __) => const SettingsScreen(),
                 ),
               ],
             ),
@@ -99,6 +110,7 @@ class AppRouter extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp.router(
       routerConfig: router,
+      debugShowCheckedModeBanner: false,
     );
   }
 }

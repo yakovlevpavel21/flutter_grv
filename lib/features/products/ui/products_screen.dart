@@ -26,17 +26,6 @@ class _ProductsScreenState extends State<ProductsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Товары"),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.add),
-            onPressed: () {
-              context.go('/product/new');
-            },
-          )
-        ],
-      ),
       body: Column(
         children: [
           _buildSearchAndSort(),
@@ -53,28 +42,37 @@ class _ProductsScreenState extends State<ProductsScreen> {
         children: [
           Expanded(
             child: TextField(
-              decoration: const InputDecoration(
-                hintText: "Поиск по названию",
-                prefixIcon: Icon(Icons.search),
+              decoration: InputDecoration(
+                hintText: "Найти товар",
+                suffixIcon: const Icon(Icons.search),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
               ),
               onChanged: (v) => setState(() => search = v.toLowerCase()),
             ),
           ),
-          const SizedBox(width: 10),
-          DropdownButton<ProductSort>(
-            value: sort,
-            items: const [
-              DropdownMenuItem(
-                value: ProductSort.name,
-                child: Text("По названию"),
-              ),
-              DropdownMenuItem(
-                value: ProductSort.quantity,
-                child: Text("По количеству"),
-              ),
-            ],
-            onChanged: (v) => setState(() => sort = v!),
+          IconButton(
+            icon: const Icon(Icons.add),
+            onPressed: () {
+              context.push('/products/new');
+            },
           ),
+          //const SizedBox(width: 10),
+          //DropdownButton<ProductSort>(
+          //  value: sort,
+          //  items: const [
+          //    DropdownMenuItem(
+          //      value: ProductSort.name,
+          //      child: Text("По названию"),
+          //    ),
+          //    DropdownMenuItem(
+          //      value: ProductSort.quantity,
+          //      child: Text("По количеству"),
+          //    ),
+          //  ],
+          //  onChanged: (v) => setState(() => sort = v!),
+          //),
         ],
       ),
     );
@@ -109,8 +107,8 @@ class _ProductsScreenState extends State<ProductsScreen> {
             itemBuilder: (_, i) => ProductCard(
               product: products[i],
               onTap: () {
-                context.go(
-                  '/product/${products[i].id}',
+                context.push(
+                  '/products/${products[i].id}',
                   extra: products[i],
                 );
               },

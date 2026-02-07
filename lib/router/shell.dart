@@ -28,7 +28,7 @@ class MainShell extends StatelessWidget {
         showUnselectedLabels: false,
         items: const [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Главная'),
-          BottomNavigationBarItem(icon: Icon(Icons.history), label: 'История'),
+          BottomNavigationBarItem(icon: Icon(Icons.local_shipping), label: 'История'),
           BottomNavigationBarItem(icon: Icon(Icons.inventory), label: 'Товары'),
           BottomNavigationBarItem(icon: Icon(Icons.category), label: 'Материалы'),
           BottomNavigationBarItem(icon: Icon(Icons.settings), label: 'Настройки'),

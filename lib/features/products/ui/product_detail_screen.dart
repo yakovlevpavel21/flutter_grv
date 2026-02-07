@@ -5,7 +5,7 @@ import 'package:grv/features/products/logic/product_bloc.dart';
 import 'product_form_screen.dart';
 
 class ProductDetailScreen extends StatelessWidget {
-  final ProductModel product;
+  final Product product;
 
   const ProductDetailScreen({super.key, required this.product});
 

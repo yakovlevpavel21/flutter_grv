@@ -1,26 +1,36 @@
-import 'package:grv/features/products/data/models/product.dart';
+import 'package:grv/data/dtos/category.dart';
+import 'package:grv/data/dtos/shipment.dart';
+import 'package:grv/features/shipments/logic/shipments_bloc.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-class ProductRepository {
+class ShipmentsRepository {
   final supabase = Supabase.instance.client;
 
-
-  Future<List<Product>> fetchProducts() async {
-    final response = await supabase.from('products').select();
-    return (response as List).map((e) => Product.fromJson(e)).toList();
+  Future<List<ShipmentDto>> fetchShipments() async {
+    final response = await supabase
+      .from('shipments')
+      .select('''
+        id,
+        created_at,
+        shop (id, name),
+        type,
+        stock_shipments (
+          id,
+          quantity,
+          stocks (
+            color:colors (id, name, rgb),
+            inventory:inventories (
+              variant,
+              product:products (name)
+            )
+          )
+        )
+      ''');
+    print(response);
+    return (response as List).map((e) => ShipmentDto.fromJson(e)).toList();
   }
-
-
-  Future<void> changeProductQuantity({required String productId, required int amount, required String type}) async {
-    await supabase.from('shipments').insert({
-      'product_id': productId,
-      'change_amount': amount,
-      'type': type,
-      'user_id': supabase.auth.currentUser!.id,
-    });
-  }
-
-    Future<void> createProduct({
+  
+  Future<void> createShipment({
     required String name,
     required String sku,
     String? category,

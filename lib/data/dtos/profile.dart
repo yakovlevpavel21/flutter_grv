@@ -1,14 +1,13 @@
 import 'package:equatable/equatable.dart';
 
-class ProfileModel extends Equatable {
+class ProfileDto extends Equatable {
   final String id;
   final String fullName;
   final String role;
   final String? avatarUrl;
   final String? phone;
 
-
-  const ProfileModel({
+  const ProfileDto({
     required this.id,
     required this.fullName,
     required this.role,
@@ -16,17 +15,15 @@ class ProfileModel extends Equatable {
     this.phone,
   });
 
-
-  factory ProfileModel.fromJson(Map<String, dynamic> json) {
-    return ProfileModel(
+  factory ProfileDto.fromJson(Map<String, dynamic> json) {
+    return ProfileDto(
       id: json['id'],
-      fullName: json['full_name'] ?? '',
+      fullName: json['full_name'],
       role: json['role'],
       avatarUrl: json['avatar_url'],
       phone: json['phone'],
     );
   }
-
 
   @override
   List<Object?> get props => [id, fullName, role, avatarUrl, phone];

@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 
-class ProductModel extends Equatable {
+class Product extends Equatable {
   final String id;
   final String name;
   final String sku;
@@ -11,7 +11,7 @@ class ProductModel extends Equatable {
   final String? imageUrl;
 
 
-  const ProductModel({
+  const Product({
     required this.id,
     required this.name,
     required this.sku,
@@ -23,8 +23,8 @@ class ProductModel extends Equatable {
   });
 
 
-  factory ProductModel.fromJson(Map<String, dynamic> json) {
-    return ProductModel(
+  factory Product.fromJson(Map<String, dynamic> json) {
+    return Product(
       id: json['id'],
       name: json['name'],
       sku: json['sku'] ?? '',

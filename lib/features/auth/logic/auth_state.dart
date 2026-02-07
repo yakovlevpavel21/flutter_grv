@@ -10,9 +10,15 @@ class AuthInitial extends AuthState {}
 class AuthLoading extends AuthState {}
 class AuthAuthenticated extends AuthState {
   final String userId;
-  AuthAuthenticated(this.userId);
+  final ProfileInfoUi profile;
+
+  AuthAuthenticated({
+    required this.userId,
+    required this.profile,
+  });
+
   @override
-  List<Object?> get props => [userId];
+  List<Object?> get props => [userId, profile];
 }
 class AuthUnauthenticated extends AuthState {}
 class AuthError extends AuthState {

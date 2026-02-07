@@ -8,7 +8,7 @@ abstract class ProductState extends Equatable {
 
 class ProductLoading extends ProductState {}
 class ProductLoaded extends ProductState {
-  final List<ProductModel> products;
+  final List<Product> products;
 
 
   ProductLoaded(this.products);

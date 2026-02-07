@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:grv/features/home/data/mappers/home_mapper.dart';
+import 'package:grv/features/home/data/repos/home_repo.dart';
+import 'package:grv/features/home/logic/home_bloc.dart';
 import 'package:grv/features/products/data/repos/product_repo.dart';
 import 'package:grv/features/products/logic/product_bloc.dart';
 import 'package:grv/router/router.dart';
@@ -23,6 +26,7 @@ class GRVRoot extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       home: MultiBlocProvider(
         providers: [
           BlocProvider<AuthBloc>(
@@ -31,10 +35,12 @@ class GRVRoot extends StatelessWidget {
           BlocProvider<ProductBloc>(
             create: (_) => ProductBloc(ProductRepository())..add(LoadProducts()),
           ),
+          BlocProvider<HomeBloc>(
+            create: (_) => HomeBloc(HomeRepository(), HomeUiMapper())..add(LoadHome()),
+          ),
         ],
         child: const AppRouter(),
       ),
-      debugShowCheckedModeBanner: false,
     );
   }
 }

@@ -4,7 +4,7 @@ import 'package:grv/features/products/data/models/product.dart';
 import 'package:grv/features/products/logic/product_bloc.dart';
 
 class ProductFormScreen extends StatefulWidget {
-  final ProductModel? product;
+  final Product? product;
 
   const ProductFormScreen({super.key, this.product});
 
