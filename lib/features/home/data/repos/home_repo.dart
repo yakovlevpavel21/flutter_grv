@@ -1,11 +1,11 @@
-import 'package:grv/data/dtos/category.dart';
+import 'package:grv/data/models/category_products.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class HomeRepository {
   final supabase = Supabase.instance.client;
 
 
-  Future<List<CategoryDto>> fetchCategories() async {
+  Future<List<CategoryProducts>> fetchCategories() async {
     final response = await supabase
         .from('categories')
         .select('''
@@ -28,7 +28,7 @@ class HomeRepository {
         ''');
     print(response);
     return (response as List)
-        .map((e) => CategoryDto.fromJson(e))
+        .map((e) => CategoryProducts.fromJson(e))
         .toList();
   }
 

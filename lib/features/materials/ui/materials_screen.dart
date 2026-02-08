@@ -15,7 +15,6 @@ class _MaterialsScreenState extends State<MaterialsScreen> {
   @override
   void initState() {
     super.initState();
-    context.read<ProductBloc>().add(LoadProducts());
   }
 
   @override

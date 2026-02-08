@@ -1,25 +1,24 @@
 import 'package:equatable/equatable.dart';
-import 'package:grv/data/dtos/stock.dart';
+import 'package:grv/data/models/stock_invetory.dart';
 
-class StockShipmentDto extends Equatable {
+class StockShipment extends Equatable {
   final int id;
   final int quantity;
-  final StockDto stock;
+  final StockInventory stock;
 
-  const StockShipmentDto({
+  const StockShipment({
     required this.id,
     required this.quantity,
     required this.stock,
   });
 
-  factory StockShipmentDto.fromJson(Map<String, dynamic> json) {
-    return StockShipmentDto(
+  factory StockShipment.fromJson(Map<String, dynamic> json) {
+    return StockShipment(
       id: json['id'],
       quantity: json['quantity'],
-      stock: StockDto.fromJson(json['stock']),
+      stock: StockInventory.fromJson(json['stock']),
     );
   }
-
 
   @override
   List<Object?> get props => [id, quantity, stock];

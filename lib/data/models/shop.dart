@@ -1,21 +1,20 @@
 import 'package:equatable/equatable.dart';
 
-class ShopDto extends Equatable {
+class Shop extends Equatable {
   final int id;
-  final int name;
+  final String name;
 
-  const ShopDto({
+  const Shop({
     required this.id,
     required this.name,
   });
 
-  factory ShopDto.fromJson(Map<String, dynamic> json) {
-    return ShopDto(
+  factory Shop.fromJson(Map<String, dynamic> json) {
+    return Shop(
       id: json['id'],
       name: json['name'],
     );
   }
-
 
   @override
   List<Object?> get props => [id, name];

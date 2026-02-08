@@ -1,18 +1,30 @@
 import 'package:equatable/equatable.dart';
 
-class ProfileInfoUi extends Equatable {
-  final String title;
-  final String subtitle;
-  final String avatarUrl;
-  final String phone;
+class ProfileInfo extends Equatable {
+  final String id;
+  final String fullName;
+  final String role;
+  final String? avatarUrl;
+  final String? phone;
 
-  const ProfileInfoUi({
-    required this.title,
-    required this.subtitle,
-    required this.avatarUrl,
-    required this.phone,
+  const ProfileInfo({
+    required this.id,
+    required this.fullName,
+    required this.role,
+    this.avatarUrl,
+    this.phone,
   });
 
+  factory ProfileInfo.fromJson(Map<String, dynamic> json) {
+    return ProfileInfo(
+      id: json['id'],
+      fullName: json['full_name'],
+      role: json['role'],
+      avatarUrl: json['avatar_url'],
+      phone: json['phone'],
+    );
+  }
+
   @override
-  List<Object?> get props => [title, subtitle, avatarUrl, phone];
+  List<Object?> get props => [id, fullName, role, avatarUrl, phone];
 }

@@ -13,6 +13,17 @@ class ProductStocks extends Equatable {
     required this.semiStocks,
   });
 
+  factory ProductStocks.fromJson(Map<String, dynamic> json) {
+    return ProductStocks(
+      name: json['name'],
+      inventories: (json['inventories'] as List<dynamic>)
+          .map((e) => InventoryStocks.fromJson(e))
+          .toList(),
+      semiStocks: (json['semi_stocks'] as List<dynamic>)
+          .map((e) => SemiStock.fromJson(e))
+          .toList(),
+    );
+  }
   @override
   List<Object?> get props => [name, inventories, semiStocks];
 }

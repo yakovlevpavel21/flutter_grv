@@ -25,10 +25,10 @@ class HomeUiMapper {
     final variants =
         product.inventories.map((e) => e.variant).toList();
 
-    final Map<String, _RowBuilder> rows = {};
+    final Map<int, _RowBuilder> rows = {};
 
     for (final semi in product.semiStocks) {
-      rows[semi.color.title] = _RowBuilder(
+      rows[semi.color.id] = _RowBuilder(
         color: semi.color,
         semiStock: semi.quantity,
       );
@@ -37,7 +37,7 @@ class HomeUiMapper {
     for (final inv in product.inventories) {
       for (final fp in inv.stocks) {
         final row = rows.putIfAbsent(
-          fp.color.title,
+          fp.color.id,
           () => _RowBuilder(color: fp.color),
         );
 
@@ -49,7 +49,7 @@ class HomeUiMapper {
     final rowUi = rows.values
         .map((r) => r.build(variants))
         .toList()
-      ..sort((a, b) => a.color.title.compareTo(b.color.title));
+      ..sort((a, b) => a.color.id.compareTo(b.color.id));
 
     return HomeProductUi(
       name: product.name,

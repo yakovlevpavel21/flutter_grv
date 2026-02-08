@@ -1,23 +1,21 @@
-import 'package:grv/data/dtos/category.dart';
-import 'package:grv/data/dtos/shipment.dart';
-import 'package:grv/features/shipments/logic/shipments_bloc.dart';
+import 'package:grv/data/models/shipment.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class ShipmentsRepository {
   final supabase = Supabase.instance.client;
 
-  Future<List<ShipmentDto>> fetchShipments() async {
+  Future<List<Shipment>> fetchShipments() async {
     final response = await supabase
       .from('shipments')
       .select('''
         id,
         created_at,
-        shop (id, name),
+        shop:shops (id, name),
         type,
         stock_shipments (
           id,
           quantity,
-          stocks (
+          stock:stocks (
             color:colors (id, name, rgb),
             inventory:inventories (
               variant,
@@ -27,7 +25,7 @@ class ShipmentsRepository {
         )
       ''');
     print(response);
-    return (response as List).map((e) => ShipmentDto.fromJson(e)).toList();
+    return (response as List).map((e) => Shipment.fromJson(e)).toList();
   }
   
   Future<void> createShipment({

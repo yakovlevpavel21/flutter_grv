@@ -10,6 +10,15 @@ class CategoryProducts extends Equatable {
     required this.products,
   });
 
+  factory CategoryProducts.fromJson(Map<String, dynamic> json) {
+    return CategoryProducts(
+      name: json['name'],
+      products: (json['products'] as List<dynamic>)
+          .map((e) => ProductStocks.fromJson(e))
+          .toList(),
+    );
+  }
+
   @override
   List<Object?> get props => [name, products];
 }

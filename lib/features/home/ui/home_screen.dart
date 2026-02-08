@@ -200,7 +200,7 @@ class _ColorCell extends StatelessWidget {
         const SizedBox(width: 10),
         Expanded(
           child: Text(
-            color.title,
+            color.name,
             overflow: TextOverflow.ellipsis,
             style: const TextStyle(
               fontSize: 12,

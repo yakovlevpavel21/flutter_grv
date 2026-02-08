@@ -12,6 +12,14 @@ class Stock extends Equatable {
     required this.color,
   });
 
+  factory Stock.fromJson(Map<String, dynamic> json) {
+    return Stock(
+      built: json['built'],
+      packed: json['packed'],
+      color: ColorModel.fromJson(json['color']),
+    );
+  }
+
   @override
   List<Object?> get props => [built, packed, color];
 }

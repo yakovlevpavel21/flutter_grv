@@ -8,14 +8,19 @@ abstract class ShipmentsState extends Equatable {
 
 class ShipmentsLoading extends ShipmentsState {}
 class ShipmentsLoaded extends ShipmentsState {
-  final List<CategoryProducts> categories;
+  final List<ShipmentItemUi> items;
+  final ShipmentType selectedType;
+  final bool hasActiveFilters;
 
-
-  ShipmentsLoaded(this.categories);
-
+  ShipmentsLoaded({
+    required this.items,
+    required this.selectedType,
+    required this.hasActiveFilters,
+  });
 
   @override
-  List<Object?> get props => [categories];
+  List<Object?> get props =>
+      [items, selectedType, hasActiveFilters];
 }
 class ShipmentsError extends ShipmentsState {
   final String message;

@@ -1,0 +1,1 @@
+enum ShipmentType { all, shipment, comeback }

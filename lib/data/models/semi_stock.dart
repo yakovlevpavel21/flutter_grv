@@ -10,6 +10,13 @@ class SemiStock extends Equatable {
     required this.color,
   });
 
+  factory SemiStock.fromJson(Map<String, dynamic> json) {
+    return SemiStock(
+      quantity: json['quantity'],
+      color: ColorModel.fromJson(json['color']),
+    );
+  }
+
   @override
   List<Object?> get props => [quantity, color];
 }

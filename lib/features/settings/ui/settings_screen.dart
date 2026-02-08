@@ -34,8 +34,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
             padding: const EdgeInsets.all(16),
             children: [
               ProfileCard(
-                title: profile.title,
-                subtitle: profile.subtitle,
+                title: profile.fullName,
+                subtitle: profile.role,
                 avatarUrl: profile.avatarUrl,
                 onLogout: () {
                   context.read<AuthBloc>().add(AuthLogoutRequested());
