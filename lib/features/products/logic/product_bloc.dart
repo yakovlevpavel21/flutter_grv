@@ -23,7 +23,6 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
     try {
       emit(ProductLoading());
       final products = await repository.fetchProducts();
-      print("products loaded");
       emit(ProductLoaded(products));
     } catch (_) {
       emit(ProductError());

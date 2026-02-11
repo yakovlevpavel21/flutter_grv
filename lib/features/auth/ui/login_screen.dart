@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:grv/features/auth/logic/auth_bloc.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -14,6 +15,12 @@ class _LoginScreenState extends State<LoginScreen> {
   final passCtrl = TextEditingController();
 
   @override
+  void initState() {
+    context.read<AuthBloc>().add(AuthCheckStatus());
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: BlocListener<AuthBloc, AuthState>(
@@ -22,6 +29,9 @@ class _LoginScreenState extends State<LoginScreen> {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(content: Text(state.message)),
             );
+          }
+          if (state is AuthAuthenticated) {
+            context.go('/shipments');
           }
         },
         child: Padding(

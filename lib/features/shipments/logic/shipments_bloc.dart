@@ -10,21 +10,23 @@ part "shipments_state.dart";
 
 class ShipmentsBloc extends Bloc<ShipmentsEvent, ShipmentsState> {
   final ShipmentsRepository repository;
+  List<ShipmentItemUi> _allItems = [];
 
   ShipmentsBloc(this.repository) : super(ShipmentsLoading()) {
     on<LoadShipments>(_load);
     on<ShipmentsTypeChanged>(_onTypeChanged);
+    on<ShipmentDeleted>(_onDelete);
   }
 
   Future<void> _load(LoadShipments event, Emitter<ShipmentsState> emit) async {
     try {
       emit(ShipmentsLoading());
       final shipments = await repository.fetchShipments();
-      final items = shipments.map((s) => s.toShipmentUi()).toList();
+      _allItems = shipments.map((s) => s.toShipmentUi()).toList();
       emit(
         ShipmentsLoaded(
-          items: items, 
-          selectedType: ShipmentType.shipment, 
+          items: _allItems, 
+          selectedType: ShipmentType.all, 
           hasActiveFilters: false
         )
       );
@@ -33,34 +35,38 @@ class ShipmentsBloc extends Bloc<ShipmentsEvent, ShipmentsState> {
     }
   }
 
-  void _onTypeChanged(
-    ShipmentsTypeChanged event,
-    Emitter<ShipmentsState> emit,
-  ) {
+  void _onTypeChanged(ShipmentsTypeChanged event, Emitter<ShipmentsState> emit) {
     if (state is! ShipmentsLoaded) return;
 
-    final current = state as ShipmentsLoaded;
+    final filtered = event.type == ShipmentType.all
+        ? _allItems
+        : _allItems.where((e) => e.type == event.type).toList();
 
     emit(
-      current.copyWith(
-        selectedType: event.type,
-      ),
+      ShipmentsLoaded(
+          items: filtered, 
+          selectedType: event.type, 
+          hasActiveFilters: (state as ShipmentsLoaded).hasActiveFilters,
+        )
     );
   }
-}
 
+  void _onDelete(ShipmentDeleted event, Emitter<ShipmentsState> emit) async {
+    if (state is! ShipmentsLoaded) return;
+    final current = (state as ShipmentsLoaded);
 
-extension on ShipmentsLoaded {
-  ShipmentsLoaded copyWith({
-    List<ShipmentItemUi>? items,
-    ShipmentType? selectedType,
-    bool? hasActiveFilters,
-  }) {
-    return ShipmentsLoaded(
-      items: items ?? this.items,
-      selectedType: selectedType ?? this.selectedType,
-      hasActiveFilters:
-          hasActiveFilters ?? this.hasActiveFilters,
-    );
+    try {
+      emit(ShipmentsLoading());
+      await repository.deleteShipment(event.shipmentId);
+      final index = current.items.indexWhere((c) => c.id == event.shipmentId);
+      _allItems.removeAt(index);
+      emit(
+        current.copyWith(
+          items: _allItems
+        )
+      );
+    } catch (e) {
+      emit(ShipmentsError(e.toString()));
+    }
   }
 }

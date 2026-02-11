@@ -22,7 +22,7 @@ class AuthWrapper extends StatelessWidget {
       },
       listener: (context, state) {
         if (state is AuthAuthenticated) {
-          context.go('/home');
+          context.go('/shipments');
         }
 
         if (state is !AuthLoading && state is !AuthInitial && state is !AuthAuthenticated) {

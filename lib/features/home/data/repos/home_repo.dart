@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:grv/data/models/category_products.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -15,6 +17,7 @@ class HomeRepository {
             inventories (
               variant,
               stocks (
+                id,
                 built,
                 packed,
                 color:colors ( id, name, rgb )
@@ -26,7 +29,6 @@ class HomeRepository {
             )
           )
         ''');
-    print(response);
     return (response as List)
         .map((e) => CategoryProducts.fromJson(e))
         .toList();

@@ -6,7 +6,10 @@ import 'package:grv/features/home/logic/home_bloc.dart';
 import 'package:grv/features/products/data/repos/product_repo.dart';
 import 'package:grv/features/products/logic/product_bloc.dart';
 import 'package:grv/features/shipments/data/repos/shipments_repo.dart';
+import 'package:grv/features/shipments/logic/add_shipment_bloc.dart';
 import 'package:grv/features/shipments/logic/shipments_bloc.dart';
+import 'package:grv/features/shops/data/repos/shops_repo.dart';
+import 'package:grv/features/shops/logic/shops_bloc.dart';
 import 'package:grv/router/router.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'features/auth/logic/auth_bloc.dart';
@@ -38,10 +41,13 @@ class GRVRoot extends StatelessWidget {
             create: (_) => ProductBloc(ProductRepository())..add(LoadProducts()),
           ),
           BlocProvider<HomeBloc>(
-            create: (_) => HomeBloc(HomeRepository(), HomeUiMapper())..add(LoadHome()),
+            create: (_) => HomeBloc(HomeRepository(), HomeUiMapper()),
           ),
           BlocProvider<ShipmentsBloc>(
             create: (_) => ShipmentsBloc(ShipmentsRepository())..add(LoadShipments()),
+          ),
+          BlocProvider<ShopsBloc>(
+            create: (_) => ShopsBloc(ShopsRepository()),
           ),
         ],
         child: const AppRouter(),

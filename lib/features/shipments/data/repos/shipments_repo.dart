@@ -1,4 +1,6 @@
 import 'package:grv/data/models/shipment.dart';
+import 'package:grv/features/shipments/data/enums/shipment_type.dart';
+import 'package:grv/features/shipments/data/models/shipment_product.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class ShipmentsRepository {
@@ -13,9 +15,9 @@ class ShipmentsRepository {
         shop:shops (id, name),
         type,
         stock_shipments (
-          id,
           quantity,
           stock:stocks (
+            id,
             color:colors (id, name, rgb),
             inventory:inventories (
               variant,
@@ -24,40 +26,35 @@ class ShipmentsRepository {
           )
         )
       ''');
-    print(response);
     return (response as List).map((e) => Shipment.fromJson(e)).toList();
   }
   
   Future<void> createShipment({
-    required String name,
-    required String sku,
-    String? category,
-    String? description,
+    required DateTime createdAt,
+    required int shopId,
+    required ShipmentType type,
+    required List<ShipmentProductUi> items,
   }) async {
-    await supabase.from('products').insert({
-      'name': name,
-      'sku': sku,
-      'category': category,
-      'description': description,
-    });
+    await supabase.rpc(
+      'create_shipment_with_items',
+      params: {
+        'p_created_at': createdAt.toIso8601String(),
+        'p_shop_id': shopId,
+        'p_type': type.name,
+        'p_items': items.map((e) => {
+          'stock_id': e.id,
+          'quantity': e.quantity,
+        }).toList(),
+      }
+    );
   }
 
-  Future<void> updateProduct({
-    required String id,
-    required String name,
-    required String sku,
-    String? category,
-    String? description,
-  }) async {
-    await supabase.from('products').update({
-      'name': name,
-      'sku': sku,
-      'category': category,
-      'description': description,
-    }).eq('id', id);
-  }
-
-  Future<void> deleteProduct(String id) async {
-    await supabase.from('products').delete().eq('id', id);
+  Future<void> deleteShipment(String shipmentId) async {
+    await supabase.rpc(
+      'delete_shipment_with_items',
+      params: {
+        'p_shipment_id': shipmentId
+      }
+    );
   }
 }

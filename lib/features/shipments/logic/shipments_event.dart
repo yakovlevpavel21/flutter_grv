@@ -14,3 +14,11 @@ class ShipmentsTypeChanged extends ShipmentsEvent {
   @override
   List<Object?> get props => [type];
 }
+class ShipmentDeleted extends ShipmentsEvent {
+  final String shipmentId;
+
+  ShipmentDeleted(this.shipmentId);
+
+  @override
+  List<Object?> get props => [shipmentId];
+}

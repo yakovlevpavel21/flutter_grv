@@ -18,9 +18,19 @@ class ShipmentsLoaded extends ShipmentsState {
     required this.hasActiveFilters,
   });
 
+  ShipmentsLoaded copyWith({
+    List<ShipmentItemUi>? items,
+    ShipmentType? selectedType,
+    bool? hasActiveFilters,
+  }) {
+    return ShipmentsLoaded(
+      items: items ?? this.items, 
+      selectedType: selectedType ?? this.selectedType, 
+      hasActiveFilters: hasActiveFilters ?? this.hasActiveFilters,
+    );
+  }
   @override
-  List<Object?> get props =>
-      [items, selectedType, hasActiveFilters];
+  List<Object?> get props => [items, selectedType, hasActiveFilters];
 }
 class ShipmentsError extends ShipmentsState {
   final String message;

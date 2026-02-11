@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:grv/features/auth/ui/login_screen.dart';
-import 'package:grv/features/shipments/ui/shipments_screen.dart';
 import 'package:grv/features/home/ui/home_screen.dart';
+import 'package:grv/features/shipments/data/enums/shipment_type.dart';
+import 'package:grv/features/shipments/ui/shipment_form_screen.dart';
+import 'package:grv/features/shipments/ui/shipments_screen.dart';
 import 'package:grv/features/materials/ui/materials_screen.dart';
 import 'package:grv/features/products/data/models/product.dart';
 import 'package:grv/features/products/ui/product_detail_screen.dart';
@@ -17,7 +19,7 @@ final router = GoRouter(
   routes: [
     GoRoute(
       path: '/',
-      builder: (context, state) => const AuthWrapper(),
+      builder: (_, __) => const LoginScreen(),
       routes: [
         GoRoute(
           path: 'login',
@@ -34,7 +36,7 @@ final router = GoRouter(
               routes: [
                 GoRoute(
                   path: 'home',
-                  builder: (_, __) => const HomeWrapper(),
+                  builder: (_, __) => const HomeScreen(),
                 ),
               ],
             ),
@@ -45,6 +47,10 @@ final router = GoRouter(
                 GoRoute(
                   path: 'shipments',
                   builder: (_, __) => const ShipmentsScreen(),
+                ),
+                GoRoute(
+                  path: 'shipments/new',
+                  builder: (_, __) => const ShipmentFormScreen(),
                 ),
               ],
             ),

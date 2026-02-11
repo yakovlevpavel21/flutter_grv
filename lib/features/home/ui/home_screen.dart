@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:grv/data/models/color.dart';
+import 'package:grv/features/home/data/mappers/home_mapper.dart';
 import 'package:grv/features/home/data/models/home_category.dart';
 import 'package:grv/features/home/data/models/home_product.dart';
 import 'package:grv/features/home/data/models/home_table_row.dart';
@@ -17,9 +18,12 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  final HomeUiMapper mapper = HomeUiMapper();
+  
   @override
   void initState() {
     super.initState();
+    context.read<HomeBloc>().add(LoadHome());
   }
 
   @override
@@ -41,7 +45,7 @@ class _HomeScreenState extends State<HomeScreen> {
               if (state is HomeLoaded) {
                 return ListView(
                   padding: const EdgeInsets.all(12),
-                  children: state.data.categories
+                  children: mapper.map(state.categories).categories
                       .map((c) => CategorySection(ui: c))
                       .toList(),
                 );

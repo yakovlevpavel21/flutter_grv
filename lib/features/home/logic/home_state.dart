@@ -7,13 +7,21 @@ abstract class HomeState extends Equatable {
 
 
 class HomeLoading extends HomeState {}
+//class HomeLoaded extends HomeState {
+//  final HomeUiModel data;
+//
+//  HomeLoaded(this.data);
+//
+//  @override
+//  List<Object?> get props => [data];
+//}
 class HomeLoaded extends HomeState {
-  final HomeUiModel data;
+  final List<CategoryProducts> categories;
 
-  HomeLoaded(this.data);
+  HomeLoaded(this.categories);
 
   @override
-  List<Object?> get props => [data];
+  List<Object?> get props => [categories];
 }
 class HomeError extends HomeState {
   final String message;

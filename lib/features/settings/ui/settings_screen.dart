@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:grv/features/auth/logic/auth_bloc.dart';
 import 'package:grv/features/settings/widgets/profile_card.dart';
 import 'package:grv/widgets/section_title.dart';
@@ -39,6 +40,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 avatarUrl: profile.avatarUrl,
                 onLogout: () {
                   context.read<AuthBloc>().add(AuthLogoutRequested());
+                  context.go('/login');
                 },
               ),
 

@@ -59,6 +59,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
 
   Future<void> _checkStatus(AuthCheckStatus event, Emitter<AuthState> emit) async {
+    emit(AuthLoading());
     final user = supabase.auth.currentUser;
     if (user != null) {
       final userId = user.id;

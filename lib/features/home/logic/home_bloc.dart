@@ -1,5 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:grv/data/models/category_products.dart';
 import 'package:grv/features/home/data/mappers/home_mapper.dart';
 import 'package:grv/features/home/data/models/home_model.dart';
 import 'package:grv/features/home/data/repos/home_repo.dart';
@@ -18,11 +19,10 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   Future<void> _load(LoadHome event, Emitter<HomeState> emit) async {
     try {
       emit(HomeLoading());
-
       final domain = await repository.fetchCategories();
       final ui = mapper.map(domain);
 
-      emit(HomeLoaded(ui));
+      emit(HomeLoaded(domain));
     } catch (e) {
       emit(HomeError(e.toString()));
     }

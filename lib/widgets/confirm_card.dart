@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
 
-class ErrorCard extends StatelessWidget { 
+class ConfirmDeletionCard extends StatelessWidget { 
   final String title;
   final String description;
   final Function() onReload;
   
-  const ErrorCard({ 
+  const ConfirmDeletionCard({ 
     super.key, 
     required this.title,
     required this.description,
@@ -43,9 +43,9 @@ class ErrorCard extends StatelessWidget {
               const SizedBox(height: 16),
               ElevatedButton(
                 onPressed: () {
-                  onReload(); // Вызываем функцию перезагрузки
+                  onReload();
                 },
-                child: const Text("Попробовать снова"),
+                child: const Text("Удалить", style: TextStyle(color: Colors.red),),
               ),
             ],
           ),
