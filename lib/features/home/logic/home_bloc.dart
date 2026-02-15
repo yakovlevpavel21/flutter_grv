@@ -2,7 +2,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:grv/data/models/category_products.dart';
 import 'package:grv/features/home/data/mappers/home_mapper.dart';
-import 'package:grv/features/home/data/models/home_model.dart';
 import 'package:grv/features/home/data/repos/home_repo.dart';
 
 part "home_event.dart"; 
@@ -14,6 +13,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
 
   HomeBloc(this.repository, this.mapper) : super(HomeLoading()) {
     on<LoadHome>(_load);
+    on<PackedCountChanged>(_packedChanged);
   }
 
   Future<void> _load(LoadHome event, Emitter<HomeState> emit) async {
@@ -26,5 +26,14 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     } catch (e) {
       emit(HomeError(e.toString()));
     }
+  }
+
+  void _packedChanged(PackedCountChanged event, Emitter<HomeState> emit) {
+    if (state is! HomeLoaded) return;
+
+    final current = state as HomeLoaded;
+
+    
+
   }
 }

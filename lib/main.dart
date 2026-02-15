@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:grv/features/colors/data/repos/colors_repo.dart';
+import 'package:grv/features/colors/logic/colors_bloc.dart';
 import 'package:grv/features/home/data/mappers/home_mapper.dart';
 import 'package:grv/features/home/data/repos/home_repo.dart';
 import 'package:grv/features/home/logic/home_bloc.dart';
-import 'package:grv/features/products/data/repos/product_repo.dart';
-import 'package:grv/features/products/logic/product_bloc.dart';
+import 'package:grv/features/nomenclature/data/repos/nomenclatures_repo.dart';
+import 'package:grv/features/nomenclature/logic/nomenclature_bloc.dart';
 import 'package:grv/features/shipments/data/repos/shipments_repo.dart';
-import 'package:grv/features/shipments/logic/add_shipment_bloc.dart';
 import 'package:grv/features/shipments/logic/shipments_bloc.dart';
 import 'package:grv/features/shops/data/repos/shops_repo.dart';
 import 'package:grv/features/shops/logic/shops_bloc.dart';
@@ -37,8 +38,8 @@ class GRVRoot extends StatelessWidget {
           BlocProvider<AuthBloc>(
             create: (_) => AuthBloc()..add(AuthCheckStatus()),
           ),
-          BlocProvider<ProductBloc>(
-            create: (_) => ProductBloc(ProductRepository())..add(LoadProducts()),
+          BlocProvider<NomenclatureBloc>(
+            create: (_) => NomenclatureBloc(NomenclatureRepository())..add(LoadNomenclature()),
           ),
           BlocProvider<HomeBloc>(
             create: (_) => HomeBloc(HomeRepository(), HomeUiMapper()),
@@ -48,6 +49,9 @@ class GRVRoot extends StatelessWidget {
           ),
           BlocProvider<ShopsBloc>(
             create: (_) => ShopsBloc(ShopsRepository()),
+          ),
+          BlocProvider<ColorsBloc>(
+            create: (_) => ColorsBloc(ColorsRepository()),
           ),
         ],
         child: const AppRouter(),

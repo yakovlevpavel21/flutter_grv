@@ -19,8 +19,8 @@ extension ShipmentToShipmentUi on Shipment {
       products: stokShipments.map((e) {
         return ShipmentProductUi(
           id: e.stock.id,
-          productName: e.stock.inventory.product.name,
-          variant: e.stock.inventory.variant,
+          productName: e.stock.variant.product.name,
+          variant: e.stock.variant.variant,
           color: e.stock.color.name,
           quantity: e.quantity,
           maxQuantity: e.quantity

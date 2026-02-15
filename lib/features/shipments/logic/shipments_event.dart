@@ -15,7 +15,7 @@ class ShipmentsTypeChanged extends ShipmentsEvent {
   List<Object?> get props => [type];
 }
 class ShipmentDeleted extends ShipmentsEvent {
-  final String shipmentId;
+  final int shipmentId;
 
   ShipmentDeleted(this.shipmentId);
 

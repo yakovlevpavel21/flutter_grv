@@ -23,7 +23,7 @@ class HomeUiMapper {
 
   HomeProductUi _mapProduct(ProductStocks product) {
     final variants =
-        product.inventories.map((e) => e.variant).toList();
+        product.variants.map((e) => e.name).toList();
 
     final Map<int, _RowBuilder> rows = {};
 
@@ -34,14 +34,14 @@ class HomeUiMapper {
       );
     }
 
-    for (final inv in product.inventories) {
+    for (final inv in product.variants) {
       for (final fp in inv.stocks) {
         final row = rows.putIfAbsent(
           fp.color.id,
           () => _RowBuilder(color: fp.color),
         );
 
-        row.variantMap[inv.variant] =
+        row.variantMap[inv.name] =
             HomeVariantCellUi(built: fp.built, packed: fp.packed);
       }
     }

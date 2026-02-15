@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:grv/features/shipments/logic/add_shipment_bloc.dart';
+import 'package:grv/features/shipments/logic/shipment_bloc.dart';
 import 'package:intl/intl.dart';
 
 class ShipmentDateTimePicker extends StatelessWidget {
@@ -10,9 +10,9 @@ class ShipmentDateTimePicker extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<AddShipmentBloc, AddShipmentState>(
+    return BlocBuilder<ShipmentBloc, ShipmentState>(
       builder: (context, state) {
-        if (state is AddShipmentInitial){
+        if (state is ShipmentInitial){
           return ListTile(
             contentPadding: EdgeInsets.symmetric(horizontal: 8),
             leading: const Icon(Icons.schedule),
@@ -37,7 +37,7 @@ class ShipmentDateTimePicker extends StatelessWidget {
 
               if (time == null) return;
 
-              context.read<AddShipmentBloc>().add(
+              context.read<ShipmentBloc>().add(
                     ShipmentDateChanged(
                       DateTime(
                         date.year,

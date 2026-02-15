@@ -70,7 +70,7 @@ List<ShipmentProductUi> expandProducts(List<ShipmentItemUi> items, String shopNa
   final Map<int, ShipmentProductUi> map = {};
 
   for (final sh in items) {
-    if (sh.shopName == shopName) {
+    if (sh.shopName == shopName && sh.type == ShipmentType.shipment) {
       for (final pr in sh.products) {
         if (map.containsKey(pr.id)) {
           final existing = map[pr.id]!;

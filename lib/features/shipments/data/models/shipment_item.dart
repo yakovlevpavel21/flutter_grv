@@ -3,7 +3,7 @@ import 'package:grv/features/shipments/data/models/shipment_product.dart';
 import 'package:grv/features/shipments/data/enums/shipment_type.dart';
 
 class ShipmentItemUi extends Equatable {
-  final String id;
+  final int id;
   final DateTime date;
   final ShipmentType type;
   final String shopName;

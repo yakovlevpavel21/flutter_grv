@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:grv/features/shipments/logic/add_shipment_bloc.dart';
+import 'package:grv/features/shipments/logic/shipment_bloc.dart';
 import 'package:grv/features/shops/data/models/shop_item.dart';
 import 'package:grv/features/shops/logic/shops_bloc.dart';
 
@@ -8,9 +8,9 @@ class ShopSelector extends StatelessWidget {
   const ShopSelector({super.key});
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<AddShipmentBloc, AddShipmentState>(
+    return BlocBuilder<ShipmentBloc, ShipmentState>(
       builder: (context, stateShip) {
-        if (stateShip is AddShipmentInitial) {
+        if (stateShip is ShipmentInitial) {
           return BlocBuilder<ShopsBloc, ShopsState>(
             builder: (context, state) {
               final isLoading = state is ShopsLoading;
@@ -45,7 +45,7 @@ class ShopSelector extends StatelessWidget {
                     : (shop) {
                         if (shop != null) {
                           context
-                              .read<AddShipmentBloc>()
+                              .read<ShipmentBloc>()
                               .add(ShipmentShopChanged(shop));
                         }
                       },

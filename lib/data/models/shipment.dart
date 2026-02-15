@@ -3,7 +3,7 @@ import 'package:grv/data/models/stock_shipments.dart';
 import 'package:grv/data/models/shop.dart';
 
 class Shipment extends Equatable {
-  final String id;
+  final int id;
   final String createdAt;
   final String type;
   final Shop shop;

@@ -7,14 +7,14 @@ extension CategoriesToProductsUiMapper on List<CategoryProducts> {
     final result = <ShipmentProductUi>[];
     for (final c in this){
       for (final p in c.products) {
-        for (final i in p.inventories) {
+        for (final i in p.variants) {
           for (final s in i.stocks) {
             result.add(
               ShipmentProductUi(
                 id: s.id,
                 color: s.color.name,
                 quantity: s.packed,
-                variant: i.variant,
+                variant: i.name,
                 productName: p.name,
                 maxQuantity: s.packed
               ),

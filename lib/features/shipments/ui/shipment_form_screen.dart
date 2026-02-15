@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:grv/features/home/logic/home_bloc.dart';
-import 'package:grv/features/shipments/logic/add_shipment_bloc.dart';
+import 'package:grv/features/shipments/logic/shipment_bloc.dart';
 import 'package:grv/features/shipments/logic/shipments_bloc.dart';
 import 'package:grv/features/shipments/widgets/products_section.dart';
 import 'package:grv/features/shipments/widgets/shipment_date_time_picker.dart';
@@ -34,7 +34,7 @@ class _ShipmentFormScreenState extends State<ShipmentFormScreen> {
         title: Text('Новая операция'),
       ),
       body: BlocProvider(
-        create: (_) => AddShipmentBloc(),
+        create: (_) => ShipmentBloc(),
         child: SafeArea(
           child: Align(
             alignment: Alignment.topCenter,
@@ -76,18 +76,18 @@ class _BottomSaveButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(0),
-      child: BlocConsumer<AddShipmentBloc, AddShipmentState>(
+      child: BlocConsumer<ShipmentBloc, ShipmentState>(
         listener: (context, state) {
-          if (state is AddShipmentSuccess) {
+          if (state is ShipmentSuccess) {
             context.read<ShipmentsBloc>().add(LoadShipments());
             context.pop();
           }
         },
         builder: (context, state) {
-          if (state is AddShipmentLoading) {
+          if (state is ShipmentLoading) {
             return Center(child: CircularProgressIndicator());
           }
-          if (state is AddShipmentInitial) {
+          if (state is ShipmentInitial) {
             return SizedBox(
               width: double.infinity,
               height: 46,
@@ -99,13 +99,13 @@ class _BottomSaveButton extends StatelessWidget {
                 onPressed: 
                   state.canSubmit
                     ? () {
-                        context.read<AddShipmentBloc>().add(ShipmentSubmitted());
+                        context.read<ShipmentBloc>().add(ShipmentSubmitted());
                       }
                     : null,
               ),
             );
           }
-          if (state is AddShipmentError) {
+          if (state is ShipmentError) {
             return ErrorCard(
               title: 'Ошибка', 
               description: state.message, 

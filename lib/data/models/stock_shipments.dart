@@ -1,9 +1,9 @@
 import 'package:equatable/equatable.dart';
-import 'package:grv/data/models/stock_invetory.dart';
+import 'package:grv/data/models/stock_variant.dart';
 
 class StockShipment extends Equatable {
   final int quantity;
-  final StockInventory stock;
+  final StockVariant stock;
 
   const StockShipment({
     required this.quantity,
@@ -13,7 +13,7 @@ class StockShipment extends Equatable {
   factory StockShipment.fromJson(Map<String, dynamic> json) {
     return StockShipment(
       quantity: json['quantity'],
-      stock: StockInventory.fromJson(json['stock']),
+      stock: StockVariant.fromJson(json['stock']),
     );
   }
 

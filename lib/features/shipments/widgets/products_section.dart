@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:grv/features/shipments/data/enums/shipment_type.dart';
 import 'package:grv/features/shipments/data/models/shipment_product.dart';
-import 'package:grv/features/shipments/logic/add_shipment_bloc.dart';
+import 'package:grv/features/shipments/logic/shipment_bloc.dart';
 import 'package:grv/features/shipments/widgets/products_sheet.dart';
 import 'package:grv/features/shipments/widgets/selector_product_tile.dart';
 
@@ -11,9 +11,9 @@ class ProductsSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<AddShipmentBloc, AddShipmentState>(
+    return BlocBuilder<ShipmentBloc, ShipmentState>(
       builder: (context, state) {
-        if (state is AddShipmentInitial) {
+        if (state is ShipmentInitial) {
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [

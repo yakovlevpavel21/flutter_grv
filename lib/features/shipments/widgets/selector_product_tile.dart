@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:grv/features/shipments/data/models/shipment_product.dart';
-import 'package:grv/features/shipments/logic/add_shipment_bloc.dart';
+import 'package:grv/features/shipments/logic/shipment_bloc.dart';
 
 class SelectedProductTile extends StatelessWidget {
   final ShipmentProductUi item;
@@ -22,10 +22,10 @@ class SelectedProductTile extends StatelessWidget {
               icon: const Icon(Icons.remove, size: 15,),
               onPressed: () {
                 if (item.quantity > 1) {
-                  context.read<AddShipmentBloc>()
+                  context.read<ShipmentBloc>()
                     .add(ShipmentProductQuantityChanged(item, item.quantity - 1));
                 } else if (item.quantity == 1) {
-                  context.read<AddShipmentBloc>()
+                  context.read<ShipmentBloc>()
                     .add(ShipmentProductRemoved(item,));
                 }
               },
@@ -56,10 +56,10 @@ class SelectedProductTile extends StatelessWidget {
                   final qty = int.tryParse(value) ?? 0;
                   
                   if (qty <= 0) {
-                    context.read<AddShipmentBloc>()
+                    context.read<ShipmentBloc>()
                       .add(ShipmentProductRemoved(item,));
                   } else if (qty >= item.maxQuantity) {
-                    context.read<AddShipmentBloc>()
+                    context.read<ShipmentBloc>()
                       .add(ShipmentProductQuantityChanged(item, item.maxQuantity));
                   }
                 },
@@ -69,7 +69,7 @@ class SelectedProductTile extends StatelessWidget {
               icon: const Icon(Icons.add, size: 15,),
               onPressed: () {
                 if (item.quantity < item.maxQuantity) {
-                  context.read<AddShipmentBloc>()
+                  context.read<ShipmentBloc>()
                     .add(ShipmentProductQuantityChanged(item, item.quantity + 1));
                 }
               },

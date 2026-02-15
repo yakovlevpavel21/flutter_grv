@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:grv/features/products/logic/product_bloc.dart';
+import 'package:grv/features/nomenclature/logic/nomenclature_bloc.dart';
 
 
 class MaterialsScreen extends StatefulWidget {

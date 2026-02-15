@@ -7,63 +7,32 @@ abstract class HomeEvent extends Equatable {
 
 
 class LoadHome extends HomeEvent {}
-class ChangeHomeStock extends HomeEvent {
-  final String HomeId;
-  final int amount;
-  final String type;
+class PackedCountChanged extends HomeEvent {
+  final int stockId;
+  final int value;
 
-
-  ChangeHomeStock(this.HomeId, this.amount, this.type);
-
+  PackedCountChanged(this.stockId, this.value);
 
   @override
-  List<Object?> get props => [HomeId, amount, type];
+  List<Object?> get props => [stockId, value];
 }
 
+class BuiltCountChanged extends HomeEvent {
+  final int stockId;
+  final int value;
 
-class CreateHome extends HomeEvent {
-  final String name;
-  final String sku;
-  final String? category;
-  final String? description;
-
-  CreateHome({
-    required this.name,
-    required this.sku,
-    this.category,
-    this.description,
-  });
+  BuiltCountChanged(this.stockId, this.value);
 
   @override
-  List<Object?> get props => [name, sku, category, description];
+  List<Object?> get props => [stockId, value];
 }
 
+class NotBuiltCountChanged extends HomeEvent {
+  final int semiStockId;
+  final int value;
 
-class UpdateHome extends HomeEvent {
-  final String id;
-  final String name;
-  final String sku;
-  final String? category;
-  final String? description;
-
-  UpdateHome({
-    required this.id,
-    required this.name,
-    required this.sku,
-    this.category,
-    this.description,
-  });
+  NotBuiltCountChanged(this.semiStockId, this.value);
 
   @override
-  List<Object?> get props => [id, name, sku, category, description];
-}
-
-
-class DeleteHome extends HomeEvent {
-  final String id;
-
-  DeleteHome(this.id);
-
-  @override
-  List<Object?> get props => [id];
+  List<Object?> get props => [semiStockId, value];
 }

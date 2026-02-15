@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:grv/features/shipments/data/models/shipment_product.dart';
-import 'package:grv/features/shipments/logic/add_shipment_bloc.dart';
+import 'package:grv/features/shipments/logic/shipment_bloc.dart';
 
 class ProductTile extends StatefulWidget {
   final BuildContext context;
@@ -45,9 +45,9 @@ class _ProductTileState extends State<ProductTile> {
         onChanged: (value) => { 
           setState(() {
             if (value == true) {
-              widget.context.read<AddShipmentBloc>().add(ShipmentProductsAdded([widget.product]));
+              widget.context.read<ShipmentBloc>().add(ShipmentProductsAdded([widget.product]));
             } else if (value == false) {
-              widget.context.read<AddShipmentBloc>().add(ShipmentProductRemoved(widget.product));
+              widget.context.read<ShipmentBloc>().add(ShipmentProductRemoved(widget.product));
             }
             val = value;
           }
@@ -56,10 +56,10 @@ class _ProductTileState extends State<ProductTile> {
       onTap: () => {
         setState(() {
             if (val == false) {
-              widget.context.read<AddShipmentBloc>().add(ShipmentProductsAdded([widget.product]));
+              widget.context.read<ShipmentBloc>().add(ShipmentProductsAdded([widget.product]));
               val = true;
             } else if (val == true) {
-              widget.context.read<AddShipmentBloc>().add(ShipmentProductRemoved(widget.product));
+              widget.context.read<ShipmentBloc>().add(ShipmentProductRemoved(widget.product));
               val = false;
             }
           }

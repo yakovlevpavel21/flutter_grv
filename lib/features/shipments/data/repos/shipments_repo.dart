@@ -19,8 +19,8 @@ class ShipmentsRepository {
           stock:stocks (
             id,
             color:colors (id, name, rgb),
-            inventory:inventories (
-              variant,
+            variant:variants (
+              name,
               product:products (name)
             )
           )
@@ -49,7 +49,7 @@ class ShipmentsRepository {
     );
   }
 
-  Future<void> deleteShipment(String shipmentId) async {
+  Future<void> deleteShipment(int shipmentId) async {
     await supabase.rpc(
       'delete_shipment_with_items',
       params: {

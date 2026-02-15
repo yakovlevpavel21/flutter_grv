@@ -11,11 +11,14 @@ class HomeRepository {
     final response = await supabase
         .from('categories')
         .select('''
+          id,
           name,
           products (
+            id,
             name,
-            inventories (
-              variant,
+            variants (
+              id,
+              name,
               stocks (
                 id,
                 built,
@@ -24,6 +27,7 @@ class HomeRepository {
               )
             ),
             semi_stocks (
+              id,
               quantity,
               color:colors ( id, name, rgb )
             )
