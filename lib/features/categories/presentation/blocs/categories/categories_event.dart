@@ -5,7 +5,11 @@ abstract class CategoriesEvent extends Equatable {
   List<Object?> get props => [];
 }
 
-class LoadCategories extends CategoriesEvent {}
+class LoadCategories extends CategoriesEvent {
+  LoadCategories({this.completer});
+
+  final Completer<void>? completer;
+}
 class SearchProducts extends CategoriesEvent {
   final String query;
 

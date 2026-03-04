@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:grv/features/categories/presentation/blocs/categories/categories_bloc.dart';
@@ -59,20 +61,25 @@ class CategoriesScreen extends StatelessWidget {
     if (state is CategoriesLoaded) {
       final categories = state.categories;
 
-      if (categories.isEmpty) {
-        return const EmptyState();
-      }
-
-      return SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 12.0),
-          child: Center(
-            child: ConstrainedBox(
-              constraints: const BoxConstraints(maxWidth: 500),
-              child: const CategoriesGrid(),
+      return RefreshIndicator(
+        onRefresh: () async {
+          final completer = Completer<void>();
+          context.read<CategoriesBloc>().add(LoadCategories(completer: completer));
+          return completer.future;
+        },
+        child: categories.isEmpty 
+            ? const EmptyState() 
+            : SafeArea(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                child: Center(
+                  child: ConstrainedBox(
+                    constraints: const BoxConstraints(maxWidth: 500),
+                    child: const CategoriesGrid(),
+                  ),
+                ),
+              ),
             ),
-          ),
-        ),
       );
     }
 

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -41,25 +43,32 @@ class _ShipmentsScreenState extends State<ShipmentsScreen> {
                   );
                 }
                 if (state is ShipmentsLoaded) {
-                  return Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      ShipmentsTopBar(
-                        selected: state.selectedType,
-                        hasFilters: state.hasActiveFilters,
-                        onFiltersTap: () {
-                          _openFilters(context);
-                        },
-                        onTypeChanged: (type) {
-                          context.read<ShipmentsBloc>().add(ShipmentsTypeChanged(type));
-                        },
-                      ),
-                      Expanded(
-                        child: state.items.isEmpty 
-                          ? const EmptyState() 
-                          : ShipmentsList(items: state.items),
-                      ),
-                    ],
+                  return RefreshIndicator(
+                    onRefresh: () async {
+                      final completer = Completer<void>();
+                      context.read<ShipmentsBloc>().add(LoadShipments(completer: completer));
+                      return completer.future;
+                    },
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        ShipmentsTopBar(
+                          selected: state.selectedType,
+                          hasFilters: state.hasActiveFilters,
+                          onFiltersTap: () {
+                            _openFilters(context);
+                          },
+                          onTypeChanged: (type) {
+                            context.read<ShipmentsBloc>().add(ShipmentsTypeChanged(type));
+                          },
+                        ),
+                        Expanded(
+                          child: state.items.isEmpty 
+                            ? const EmptyState() 
+                            : ShipmentsList(items: state.items),
+                        ),
+                      ],
+                    ),
                   );
                 }
                 if (state is ShipmentsError) {

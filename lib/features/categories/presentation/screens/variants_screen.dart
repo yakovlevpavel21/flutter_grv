@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:grv/features/categories/domain/entities/product_entity.dart';
@@ -62,18 +64,23 @@ class VariantsScreen extends StatelessWidget {
         if (state is CategoriesLoaded) {
           final product = state.categories[categoryId]?.products[productId];
 
-          if (product == null) {
-            return Scaffold(
-              appBar: AppBar(),
-              body: const Center(child: Text('Товар не найден')),
-            );
-          }
-
-          return Scaffold(
-            appBar: AppBar(
-              title: Text(product.name),
-            ),
-            body: _buildBody(product, context),
+          return RefreshIndicator(
+            onRefresh: () async {
+              final completer = Completer<void>();
+              context.read<CategoriesBloc>().add(LoadCategories(completer: completer));
+              return completer.future;
+            },
+            child: product == null 
+                ? Scaffold(
+                    appBar: AppBar(),
+                    body: const Center(child: Text('Товар не найден')),
+                  )
+                : Scaffold(
+                  appBar: AppBar(
+                    title: Text(product.name),
+                  ),
+                  body: _buildBody(product, context),
+                ),
           );
         }
 

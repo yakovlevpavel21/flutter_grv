@@ -5,4 +5,8 @@ abstract class ColorsEvent extends Equatable {
   List<Object?> get props => [];
 }
 
-class LoadColors extends ColorsEvent {}
+class LoadColors extends ColorsEvent {
+  LoadColors({this.completer});
+
+  final Completer? completer;
+}

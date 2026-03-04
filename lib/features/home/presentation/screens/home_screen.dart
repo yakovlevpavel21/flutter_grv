@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:grv/features/categories/presentation/blocs/categories/categories_bloc.dart';
@@ -36,12 +38,19 @@ class _HomeScreenState extends State<HomeScreen> {
                 );
               }
               if (state is CategoriesLoaded) {
-                return ListView(
-                  padding: const EdgeInsets.all(12),
-                  children: mapper
-                      .map(state.categories.values.toList()).categories
-                      .map((c) => CategorySection(ui: c))
-                      .toList(),
+                return RefreshIndicator(
+                  onRefresh: () async {
+                    final completer = Completer<void>();
+                    context.read<CategoriesBloc>().add(LoadCategories(completer: completer));
+                    return completer.future;
+                  },
+                  child: ListView(
+                    padding: const EdgeInsets.all(12),
+                    children: mapper
+                        .map(state.categories.values.toList()).categories
+                        .map((c) => CategorySection(ui: c))
+                        .toList(),
+                  ),
                 );
               }
               if (state is CategoriesError) {

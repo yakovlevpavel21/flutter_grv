@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:grv/features/categories/domain/entities/category_entity.dart';
@@ -44,24 +46,29 @@ class ProductsScreen extends StatelessWidget {
         if (state is CategoriesLoaded) {
           final category = state.categories[categoryId];
 
-          if (category == null) {
-            return Scaffold(
-              appBar: AppBar(),
-              body: const Center(child: Text('Категория не найдена')),
-            );
-          }
-
-          return Scaffold(
-            appBar: AppBar(
-              title: Text(category.name),
-              actions: [
-                IconButton(
-                  icon: const Icon(Icons.add),
-                  onPressed: () => _showAddProductSheet(context),
+          return RefreshIndicator(
+            onRefresh: () async {
+              final completer = Completer<void>();
+              context.read<CategoriesBloc>().add(LoadCategories(completer: completer));
+              return completer.future;
+            },
+            child: category == null 
+                ? Scaffold(
+                    appBar: AppBar(),
+                    body: const Center(child: Text('Категория не найдена')),
+                  )
+                : Scaffold(
+                  appBar: AppBar(
+                    title: Text(category.name),
+                    actions: [
+                      IconButton(
+                        icon: const Icon(Icons.add),
+                        onPressed: () => _showAddProductSheet(context),
+                      ),
+                    ],
+                  ),
+                  body: _buildBody(category),
                 ),
-              ],
-            ),
-            body: _buildBody(category),
           );
         }
 

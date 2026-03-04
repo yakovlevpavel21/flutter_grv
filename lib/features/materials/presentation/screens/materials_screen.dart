@@ -1,5 +1,9 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:grv/features/materials/presentation/blocs/colors/colors_bloc.dart';
 
 
 class MaterialsScreen extends StatefulWidget {
@@ -22,16 +26,23 @@ class _MaterialsScreenState extends State<MaterialsScreen> {
       appBar: AppBar(
         title: Text('Материалы'),
       ),
-      body: ListView(
-        children: [
-          ListTile(
-            title: Text('Цвета'),
-            trailing: Icon(Icons.arrow_right),
-            onTap: () {
-              context.push('/materials/colors');
-            },
-          )
-        ],
+      body: RefreshIndicator(
+        onRefresh: () async {
+          final completer = Completer<void>();
+          context.read<ColorsBloc>().add(LoadColors(completer: completer));
+          return completer.future;
+        },
+        child: ListView(
+          children: [
+            ListTile(
+              title: Text('Цвета'),
+              trailing: Icon(Icons.arrow_right),
+              onTap: () {
+                context.push('/materials/colors');
+              },
+            )
+          ],
+        ),
       ),
     );
   }

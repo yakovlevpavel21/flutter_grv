@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:grv/features/categories/domain/entities/product_entity.dart';
@@ -27,6 +29,8 @@ class CategoriesBloc extends Bloc<CategoriesEvent, CategoriesState> {
       ));
     } catch (e) {
       emit(CategoriesError(e.toString()));
+    } finally {
+      event.completer?.complete();
     }
   }
 

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:grv/features/shipments/data/enums/shipment_type.dart';
@@ -31,6 +33,8 @@ class ShipmentsBloc extends Bloc<ShipmentsEvent, ShipmentsState> {
       );
     } catch (e) {
       emit(ShipmentsError(e.toString()));
+    } finally {
+      event.completer?.complete();
     }
   }
 

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:grv/features/materials/domain/entities/color_entity.dart';
@@ -20,6 +22,8 @@ class ColorsBloc extends Bloc<ColorsEvent, ColorsState> {
       emit(ColorsLoaded(items: colors));
     } catch (e) {
       emit(ColorsError(e.toString()));
+    } finally {
+      event.completer?.complete();
     }
   }
 }

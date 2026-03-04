@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:grv/features/materials/data/repositories/color_edit_repository_impl.dart';
@@ -69,23 +71,30 @@ class ColorsScreen extends StatelessWidget {
           }
           if (state is ColorsLoaded) {
             final colors = state.items;
-            return ListView.builder(
-              itemCount: colors.length,
-              itemBuilder: (_, index) {
-                final color = colors[index];
-                return ListTile(
-                  title: Text(color.name),
-                  leading: SizedBox(
-                    width: 30,
-                    height: 30,
-                    child: ColoredBox(color: color.color),
-                  ),
-                  trailing: EditDeleteMenuButton(
-                    onEdit: () => _onEdit(context, color), 
-                    onDelete: () => _onDelete(context, color.id)
-                  ),
-                );
+            return RefreshIndicator(
+              onRefresh: () async {
+                final completer = Completer<void>();
+                context.read<ColorsBloc>().add(LoadColors(completer: completer));
+                return completer.future;
               },
+              child: ListView.builder(
+                itemCount: colors.length,
+                itemBuilder: (_, index) {
+                  final color = colors[index];
+                  return ListTile(
+                    title: Text(color.name),
+                    leading: SizedBox(
+                      width: 30,
+                      height: 30,
+                      child: ColoredBox(color: color.color),
+                    ),
+                    trailing: EditDeleteMenuButton(
+                      onEdit: () => _onEdit(context, color), 
+                      onDelete: () => _onDelete(context, color.id)
+                    ),
+                  );
+                },
+              ),
             );
           }
           if (state is ColorsError) {

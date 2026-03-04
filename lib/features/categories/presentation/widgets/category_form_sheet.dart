@@ -23,6 +23,7 @@ class _CategoryFormSheetState extends State<CategoryFormSheet> {
       child: BlocProvider(
         create: (_) => CategoryBloc(
           repository: CategoryEditRepositoryImpl(),
+          categoryEntity: widget.category,
         ),
         child: BlocListener<CategoryBloc, CategoryInitial>(
           listenWhen: (p, c) => c.status == CategoryStatus.success,

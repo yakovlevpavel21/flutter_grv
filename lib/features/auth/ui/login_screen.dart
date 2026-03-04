@@ -31,7 +31,7 @@ class _LoginScreenState extends State<LoginScreen> {
             );
           }
           if (state is AuthAuthenticated) {
-            context.go('/shipments');
+            context.go('/home');
           }
         },
         child: Padding(
