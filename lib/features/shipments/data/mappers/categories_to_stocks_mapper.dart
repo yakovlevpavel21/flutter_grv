@@ -1,24 +1,26 @@
-import 'package:grv/data/models/category_products.dart';
-import 'package:grv/features/shipments/data/models/shipment_product.dart';
-import 'package:grv/features/shipments/data/models/stock_item.dart';
+import 'package:grv/features/categories/domain/entities/category_entity.dart';
+import 'package:grv/features/categories/domain/enums/stock_state.dart';
+import 'package:grv/features/shipments/domain/entities/stock_details_entity.dart';
 
-extension CategoriesToProductsUiMapper on List<CategoryProducts> {
-  List<ShipmentProductUi> toProductsUi() {
-    final result = <ShipmentProductUi>[];
+extension CategoriesToStocksUiMapper on List<CategoryEntity> {
+  List<StockDetailsEntity> toStocksUi() {
+    final result = <StockDetailsEntity>[];
     for (final c in this){
-      for (final p in c.products) {
-        for (final i in p.variants) {
-          for (final s in i.stocks) {
-            result.add(
-              ShipmentProductUi(
-                id: s.id,
-                color: s.color.name,
-                quantity: s.packed,
-                variant: i.name,
-                productName: p.name,
-                maxQuantity: s.packed
-              ),
-            );
+      for (final p in c.productsList) {
+        for (final v in p.variantsList) {
+          for (final s in v.stocksList) {
+            if (s.state == StockState.packed) {
+              result.add(
+                StockDetailsEntity(
+                  id: s.id, 
+                  variantName: v.name, 
+                  productName: p.name, 
+                  categoryName: c.name, 
+                  color: s.color, 
+                  quantity: s.quantity
+                ),
+              );
+            }
           }
         }
       }

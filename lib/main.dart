@@ -1,14 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:grv/features/colors/data/repos/colors_repo.dart';
-import 'package:grv/features/colors/logic/colors_bloc.dart';
-import 'package:grv/features/home/data/mappers/home_mapper.dart';
-import 'package:grv/features/home/data/repos/home_repo.dart';
-import 'package:grv/features/home/logic/home_bloc.dart';
-import 'package:grv/features/nomenclature/data/repos/nomenclatures_repo.dart';
-import 'package:grv/features/nomenclature/logic/nomenclature_bloc.dart';
-import 'package:grv/features/shipments/data/repos/shipments_repo.dart';
-import 'package:grv/features/shipments/logic/shipments_bloc.dart';
+import 'package:grv/features/materials/data/repositories/color_edit_repository_impl.dart';
+import 'package:grv/features/categories/data/repositories/categories_repository_impl.dart';
+import 'package:grv/features/categories/presentation/blocs/categories/categories_bloc.dart';
+import 'package:grv/features/materials/presentation/blocs/colors/colors_bloc.dart';
+import 'package:grv/features/shipments/data/repositories/shipments_repository_impl.dart';
+import 'package:grv/features/shipments/presentation/blocs/shipments/shipments_bloc.dart';
 import 'package:grv/features/shops/data/repos/shops_repo.dart';
 import 'package:grv/features/shops/logic/shops_bloc.dart';
 import 'package:grv/router/router.dart';
@@ -38,20 +35,17 @@ class GRVRoot extends StatelessWidget {
           BlocProvider<AuthBloc>(
             create: (_) => AuthBloc()..add(AuthCheckStatus()),
           ),
-          BlocProvider<NomenclatureBloc>(
-            create: (_) => NomenclatureBloc(NomenclatureRepository())..add(LoadNomenclature()),
-          ),
-          BlocProvider<HomeBloc>(
-            create: (_) => HomeBloc(HomeRepository(), HomeUiMapper()),
+          BlocProvider<CategoriesBloc>(
+            create: (_) => CategoriesBloc(CategoriesRepositoryImpl())..add(LoadCategories()),
           ),
           BlocProvider<ShipmentsBloc>(
-            create: (_) => ShipmentsBloc(ShipmentsRepository())..add(LoadShipments()),
+            create: (_) => ShipmentsBloc(ShipmentsRepositoryImpl())..add(LoadShipments()),
           ),
           BlocProvider<ShopsBloc>(
             create: (_) => ShopsBloc(ShopsRepository()),
           ),
           BlocProvider<ColorsBloc>(
-            create: (_) => ColorsBloc(ColorsRepository()),
+            create: (_) => ColorsBloc(ColorEditRepositoryImpl())..add(LoadColors()),
           ),
         ],
         child: const AppRouter(),

@@ -1,0 +1,109 @@
+нужно придумать как организовать управление товарами на складе, но немного нестандартным способом.
+Есть категории товаров (тумбы, столы...), они могут быть разных вариантов (с одним ящиком, с двумя ящиками или просто тумба отличающаяся от других), разных цветов, но частично возможно что есть определенный набор цветов для всей продукции. Важно в бд хранить количество изделий которые: не собраны, собраны, упакованы.
+Пример: тумба с одним ящиком белого цвета: собрано - 1, упаковано - 2. Но количество не собранных это количество заготовок из которых собирают например тумбу с одним ящиком или с двумя. То есть из 2 не собранных тумб определенного цвета с одним ящиком, можно собрать 2 тумбы с одним ящиком (логично) и одну тумбу с двумя ящиками. Тут как раз нестандартный учет появляется. есть поле не собранные для одного вида тумбы (прикроватной) с двумя вариациями (1  или 2 ящика) которые могут быть различных цветов. Получается из не собранных частей каждого цвета можно собрать разные тумбы.
+сейчас у меня есть такая схема БД. Насколько она подходит под мой случай или лучше можно было сделать проще и лучше?
+
+
+CREATE TABLE public.categories (
+  id bigint GENERATED ALWAYS AS IDENTITY NOT NULL,
+  created_at timestamp with time zone NOT NULL DEFAULT now(),
+  name text NOT NULL UNIQUE,
+  CONSTRAINT categories_pkey PRIMARY KEY (id)
+);
+CREATE TABLE public.colors (
+  id bigint GENERATED ALWAYS AS IDENTITY NOT NULL,
+  created_at timestamp with time zone NOT NULL DEFAULT now(),
+  name text NOT NULL UNIQUE,
+  rgb text NOT NULL UNIQUE,
+  CONSTRAINT colors_pkey PRIMARY KEY (id)
+);
+CREATE TABLE public.products (
+  id bigint GENERATED ALWAYS AS IDENTITY NOT NULL,
+  created_at timestamp with time zone NOT NULL DEFAULT now(),
+  name text NOT NULL,
+  category_id bigint NOT NULL,
+  CONSTRAINT products_pkey PRIMARY KEY (id),
+  CONSTRAINT products_category_id_fkey FOREIGN KEY (category_id) REFERENCES public.categories(id)
+);
+CREATE TABLE public.semi_stocks (
+  id bigint GENERATED ALWAYS AS IDENTITY NOT NULL,
+  created_at timestamp with time zone NOT NULL DEFAULT now(),
+  color_id bigint,
+  quantity bigint NOT NULL,
+  product_id bigint NOT NULL,
+  CONSTRAINT semi_stocks_pkey PRIMARY KEY (id),
+  CONSTRAINT semi_stocks_color_id_fkey FOREIGN KEY (color_id) REFERENCES public.colors(id),
+  CONSTRAINT semi_stocks_product_id_fkey FOREIGN KEY (product_id) REFERENCES public.products(id)
+);
+CREATE TABLE public.stocks (
+  id bigint GENERATED ALWAYS AS IDENTITY NOT NULL,
+  created_at timestamp with time zone NOT NULL DEFAULT now(),
+  variant_id bigint NOT NULL,
+  color_id bigint,
+  built bigint NOT NULL,
+  packed bigint NOT NULL,
+  CONSTRAINT stocks_pkey PRIMARY KEY (id),
+  CONSTRAINT stocks_color_id_fkey FOREIGN KEY (color_id) REFERENCES public.colors(id),
+  CONSTRAINT stocks_variant_id_fkey FOREIGN KEY (variant_id) REFERENCES public.variants(id)
+);
+CREATE TABLE public.variants (
+  id bigint GENERATED ALWAYS AS IDENTITY NOT NULL,
+  created_at timestamp with time zone NOT NULL DEFAULT now(),
+  name text NOT NULL,
+  ratio bigint NOT NULL,
+  icon_url text,
+  product_id bigint NOT NULL,
+  CONSTRAINT variants_pkey PRIMARY KEY (id),
+  CONSTRAINT inventories_product_id_fkey FOREIGN KEY (product_id) REFERENCES public.products(id)
+);
+
+
+
+--------------------------------------------------------------------------------------------------------
+
+
+-- 1. Категории (Тумбы, Столы)
+CREATE TABLE public.categories (
+  id bigint GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+  name text NOT NULL UNIQUE
+);
+
+-- 2. Цвета
+CREATE TABLE public.colors (
+  id bigint GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+  name text NOT NULL UNIQUE,
+  rgb text NOT NULL UNIQUE
+);
+
+-- 3. Продукты (Общее название модели, например "Тумба прикроватная Классика")
+-- Это то, что определяет "базовый набор заготовок"
+CREATE TABLE public.products (
+  id bigint GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+  category_id bigint NOT NULL REFERENCES public.categories(id),
+  name text NOT NULL
+);
+
+-- 4. Варианты (Конкретные исполнения: 1 ящик, 2 ящика)
+CREATE TABLE public.variants (
+  id bigint GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+  product_id bigint NOT NULL REFERENCES public.products(id),
+  name text NOT NULL, -- "С 1 ящиком"
+  parts_consumed int NOT NULL DEFAULT 1, -- СКОЛЬКО заготовок продукта нужно для сборки (ваш ratio)
+  icon_url text
+);
+
+-- 5. Единая таблица остатков (Склад)
+-- Здесь мы храним и заготовки, и готовые изделия.
+CREATE TABLE public.inventory (
+  id bigint GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+  product_id bigint NOT NULL REFERENCES public.products(id),
+  -- variant_id может быть NULL, если это "несобранная заготовка"
+  variant_id bigint REFERENCES public.variants(id), 
+  color_id bigint NOT NULL REFERENCES public.colors(id),
+  -- Состояния: 'raw' (не собрано), 'built' (собрано), 'packed' (упаковано)
+  state text NOT NULL CHECK (state IN ('raw', 'built', 'packed')),
+  quantity bigint NOT NULL DEFAULT 0,
+  
+  -- Уникальность, чтобы не плодить дубли
+  UNIQUE(product_id, variant_id, color_id, state)
+);

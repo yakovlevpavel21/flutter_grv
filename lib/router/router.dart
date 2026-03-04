@@ -1,21 +1,18 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:grv/features/auth/ui/login_screen.dart';
-import 'package:grv/features/home/ui/home_screen.dart';
-import 'package:grv/features/nomenclature/data/models/category_item.dart';
-import 'package:grv/features/category/data/models/product_item.dart';
-import 'package:grv/features/product/ui/product_screen.dart';
-import 'package:grv/features/category/ui/category_screen.dart';
-import 'package:grv/features/nomenclature/widgets/categories_grid.dart';
-import 'package:grv/features/shipments/data/enums/shipment_type.dart';
-import 'package:grv/features/shipments/ui/shipment_form_screen.dart';
-import 'package:grv/features/shipments/ui/shipments_screen.dart';
-import 'package:grv/features/materials/ui/materials_screen.dart';
-import 'package:grv/features/nomenclature/ui/nomenclature_screen.dart';
+import 'package:grv/features/home/presentation/screens/home_screen.dart';
+import 'package:grv/features/categories/presentation/screens/variants_screen.dart';
+import 'package:grv/features/categories/presentation/screens/products_screen.dart';
+import 'package:grv/features/materials/presentation/screens/colors_screen.dart';
 import 'package:grv/features/settings/ui/settings_screen.dart';
-import 'package:grv/features/variant/ui/variant.dart';
+import 'package:grv/features/shipments/presentation/screens/shipment_form_screen.dart';
+import 'package:grv/features/shipments/presentation/screens/shipments_screen.dart';
+import 'package:grv/features/materials/presentation/screens/materials_screen.dart';
+import 'package:grv/features/categories/presentation/screens/categories_screen.dart';
+import 'package:grv/features/categories/presentation/screens/stocks_screen.dart';
 import 'package:grv/router/shell.dart';
-import 'package:grv/router/wrapper.dart';
 
 final router = GoRouter(
   initialLocation: '/login',
@@ -58,13 +55,13 @@ final router = GoRouter(
           routes: [
             GoRoute(
               path: '/nomenclature',
-              builder: (_, __) => const NomenclatureScreen(),
+              builder: (_, __) => const CategoriesScreen(),
               routes: [
                 GoRoute(
                   path: 'categories/:categoryId',
                   builder: (context, state) {
                     final id = int.parse(state.pathParameters['categoryId']!);
-                    return CategoryScreen(categoryId: id);
+                    return ProductsScreen(categoryId: id);
                   },
                   routes: [
                     GoRoute(
@@ -72,7 +69,7 @@ final router = GoRouter(
                       builder: (context, state) {
                         final catId = int.parse(state.pathParameters['categoryId']!);
                         final prodId = int.parse(state.pathParameters['productId']!);
-                        return ProductScreen(categoryId: catId, productId: prodId);
+                        return VariantsScreen(categoryId: catId, productId: prodId);
                       },
                       routes: [
                         GoRoute(
@@ -81,7 +78,7 @@ final router = GoRouter(
                             final catId = int.parse(state.pathParameters['categoryId']!);
                             final prodId = int.parse(state.pathParameters['productId']!);
                             final varId = int.parse(state.pathParameters['variantId']!);
-                            return VariantScreen( 
+                            return StocksScreen( 
                               categoryId: catId, 
                               productId: prodId, 
                               variantId: varId
@@ -96,6 +93,30 @@ final router = GoRouter(
             ),
           ],
         ),
+
+        StatefulShellBranch(
+          routes: [
+            GoRoute(
+              path: '/materials',
+              builder: (_, __) => const MaterialsScreen(),
+              routes: [
+                GoRoute(
+                  path: 'colors', 
+                  builder: (_, __) => const ColorsScreen(),
+                ),
+              ],
+            ),
+          ],
+        ),
+
+        StatefulShellBranch(
+          routes: [
+            GoRoute(
+              path: '/settings',
+              builder: (_, __) => const SettingsScreen(),
+            ),
+          ],
+        ),
       ],
     ),
   ],
@@ -107,8 +128,20 @@ class AppRouter extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
+      scrollBehavior: MyCustomScrollBehavior(),
       routerConfig: router,
       debugShowCheckedModeBanner: false,
     );
   }
+}
+
+
+class MyCustomScrollBehavior extends MaterialScrollBehavior {
+  @override
+  Set<PointerDeviceKind> get dragDevices => {
+    PointerDeviceKind.touch,
+    PointerDeviceKind.mouse,
+    PointerDeviceKind.stylus,
+    PointerDeviceKind.unknown,
+  };
 }

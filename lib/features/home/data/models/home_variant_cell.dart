@@ -1,11 +1,8 @@
 class HomeVariantCellUi {
-  final int built;
-  final int packed;
+  final int builtCount;
+  final int packedCount;
 
-  HomeVariantCellUi({
-    required this.built,
-    required this.packed,
-  });
-
-  bool get isEmpty => built == 0 && packed == 0;
+  HomeVariantCellUi({this.builtCount = 0, this.packedCount = 0});
+  
+  bool get isEmpty => builtCount == 0 && packedCount == 0;
 }
