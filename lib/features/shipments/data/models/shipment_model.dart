@@ -1,4 +1,5 @@
 import 'package:grv/features/shipments/data/enums/shipment_type.dart';
+import 'package:grv/features/shipments/data/models/shop_model.dart';
 import 'package:grv/features/shipments/data/models/stock_shipment_model.dart';
 import 'package:grv/features/shipments/domain/entities/shipment_entity.dart';
 
@@ -7,7 +8,7 @@ class ShipmentModel extends ShipmentEntity {
     required super.id,
     required super.date,
     required super.type,
-    required super.shopName,
+    required super.shop,
     required super.stocks,
   });
 
@@ -22,7 +23,7 @@ class ShipmentModel extends ShipmentEntity {
       type: json['type'] == ShipmentType.shipment.name 
           ? ShipmentType.shipment 
           : ShipmentType.comeback,
-      shopName: json['shop']['name'],
+      shop: ShopModel.fromJson(json['shop']),
       stocks: stocks,
     );
   }

@@ -1,11 +1,12 @@
 import 'package:grv/features/shipments/data/enums/shipment_type.dart';
+import 'package:grv/features/shipments/domain/entities/shop_entity.dart';
 import 'package:grv/features/shipments/domain/entities/stock_shipment_entity.dart';
 
 class ShipmentEntity {
   final int id;
   final DateTime date;
   final ShipmentType type;
-  final String shopName;
+  final ShopEntity shop;
   final List<StockShipmentEntity> stocks;
 
   int get totalQuantity => 
@@ -15,7 +16,7 @@ class ShipmentEntity {
     required this.id,
     required this.date,
     required this.type,
-    required this.shopName,
+    required this.shop,
     required this.stocks,
   });
 }

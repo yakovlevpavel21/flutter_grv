@@ -13,7 +13,7 @@ class ShipmentsRepositoryImpl implements ShipmentsRepository{
       .select('''
         id,
         created_at,
-        shop:shops (name),
+        shop:shops (id, name),
         type,
         stock_shipments (
           id,

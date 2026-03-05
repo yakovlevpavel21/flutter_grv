@@ -51,7 +51,7 @@ class ShipmentCard extends StatelessWidget {
                       overflow: TextOverflow.ellipsis,
                     ),
                     Text(
-                      item.shopName,
+                      item.shop.name,
                       style: const TextStyle(
                         color: Colors.grey,
                       ),

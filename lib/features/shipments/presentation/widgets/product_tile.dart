@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:grv/features/shipments/domain/entities/stock_details_entity.dart';
-import 'package:grv/features/shipments/domain/entities/stock_shipment_entity.dart';
 import 'package:grv/features/shipments/presentation/blocs/shipment_edit/shipment_edit_bloc.dart';
 
 class ProductTile extends StatefulWidget {
@@ -69,38 +68,3 @@ class _ProductTileState extends State<ProductTile> {
     );
   }
 }
-
-//class ProductTile extends StatefulWidget {
-//  final String productName;
-//  final String variant;
-//  final String color;
-//  final int count;
-//  bool? val = false;
-//  
-//  ProductTile({
-//    super.key, 
-//    required this.productName,
-//    required this.variant,
-//    required this.color,
-//    required this.count,
-//  });
-//
-//  @override
-//  Widget build(BuildContext context) {
-//    return ListTile(
-//      contentPadding: EdgeInsets.all(0),
-//      title: Text(productName),
-//      subtitle: Text('$variant • $color'),
-//      trailing: Text(
-//        '$count шт.',
-//        style: TextStyle(
-//          fontSize: 14,
-//        ),
-//      ),
-//      leading: Checkbox(
-//        value: val, 
-//        onChanged: (value) => { print(value) },
-//      ),
-//    );
-//  }
-//}

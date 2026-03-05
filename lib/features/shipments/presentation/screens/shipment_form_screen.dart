@@ -22,18 +22,20 @@ class _ShipmentFormScreenState extends State<ShipmentFormScreen> {
   @override
   void initState() {
     super.initState();
-    context.read<ShopsBloc>().add(LoadShops());
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Новая операция'),
-      ),
-      body: BlocProvider(
-        create: (_) => ShipmentEditBloc(),
-        child: SafeArea(
+    return BlocProvider(
+      create: (_) => ShipmentEditBloc(),
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text('Новая операция'),
+          actions: [
+            _BottomSaveButton(),
+          ],
+        ),
+        body: SafeArea(
           child: Align(
             alignment: Alignment.topCenter,
             child: ConstrainedBox(
@@ -57,7 +59,6 @@ class _ShipmentFormScreenState extends State<ShipmentFormScreen> {
 
                     ProductsSection(),
                     SizedBox(height: 20,),
-                    _BottomSaveButton(),
                   ],
                 ),
               ),
@@ -72,49 +73,36 @@ class _ShipmentFormScreenState extends State<ShipmentFormScreen> {
 class _BottomSaveButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(0),
-      child: BlocConsumer<ShipmentEditBloc, ShipmentEditInitial>(
-        listener: (context, state) {
-          if (state.status == ShipmentStatus.success) {
-            context.read<ShipmentsBloc>().add(LoadShipments());
-            context.pop();
-          }
-        },
-        builder: (context, state) {
-          if (state.status == ShipmentStatus.loading) {
-            return Center(child: CircularProgressIndicator());
-          }
-          if (state.status == ShipmentStatus.initial) {
-            return SizedBox(
-              width: double.infinity,
-              height: 46,
-              child: ElevatedButton.icon(
-                label: const Text(
-                  'Сохранить',
-                  style: TextStyle(fontSize: 15),
-                ),
-                onPressed: 
-                  state.canSubmit
-                    ? () {
-                        context.read<ShipmentEditBloc>().add(ShipmentSubmitted());
-                      }
-                    : null,
-              ),
-            );
-          }
-          if (state.status == ShipmentStatus.error) {
-            return ErrorCard(
-              title: 'Ошибка', 
-              description: state.errorMessage ?? '', 
-              onReload: () {
-                context.pop();
-              }
-            );
-          }
-          return const SizedBox();
-        },
-      ),
+    return BlocConsumer<ShipmentEditBloc, ShipmentEditInitial>(
+      listener: (context, state) {
+        if (state.status == ShipmentStatus.success) {
+          context.read<ShipmentsBloc>().add(LoadShipments());
+          context.pop();
+        }
+      },
+      builder: (context, state) {
+        if (state.status == ShipmentStatus.loading) {
+          return Center(child: CircularProgressIndicator());
+        }
+        if (state.status == ShipmentStatus.initial) {
+          return IconButton(
+            onPressed: () => state.canSubmit
+                ? () => context.read<ShipmentEditBloc>().add(ShipmentSubmitted())
+                : null,
+            icon: Icon(Icons.done, color: state.canSubmit ? Colors.green : Colors.grey, size: 28),
+          );
+        }
+        if (state.status == ShipmentStatus.error) {
+          return ErrorCard(
+            title: 'Ошибка', 
+            description: state.errorMessage ?? '', 
+            onReload: () {
+              context.pop();
+            }
+          );
+        }
+        return const SizedBox();
+      },
     );
   }
 }

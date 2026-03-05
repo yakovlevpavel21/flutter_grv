@@ -16,6 +16,8 @@ class ShipmentsBloc extends Bloc<ShipmentsEvent, ShipmentsState> {
   ShipmentsBloc(this.repository) : super(ShipmentsLoading()) {
     on<LoadShipments>(_load);
     on<ShipmentsTypeChanged>(_onTypeChanged);
+    on<ShipmentsFilterShopAdded>(_onFilterShopAdd);
+    on<ShipmentsFilterShopRemoved>(_onFilterShopRemove);
   }
 
   Future<void> _load(LoadShipments event, Emitter<ShipmentsState> emit) async {
@@ -28,7 +30,7 @@ class ShipmentsBloc extends Bloc<ShipmentsEvent, ShipmentsState> {
         ShipmentsLoaded(
           items: _allItems, 
           selectedType: ShipmentType.all, 
-          hasActiveFilters: false
+          selectedShopIds: []
         )
       );
     } catch (e) {
@@ -45,12 +47,41 @@ class ShipmentsBloc extends Bloc<ShipmentsEvent, ShipmentsState> {
         ? _allItems
         : _allItems.where((e) => e.type == event.type).toList();
 
-    emit(
-      ShipmentsLoaded(
-          items: filtered, 
-          selectedType: event.type, 
-          hasActiveFilters: (state as ShipmentsLoaded).hasActiveFilters,
-        )
+    emit((state as ShipmentsLoaded)
+      .copyWith(
+        items: filtered,
+        selectedType: event.type,
+      )
     );
+  }
+
+  void _onFilterShopAdd(ShipmentsFilterShopAdded event, Emitter<ShipmentsState> emit) {
+    if (state is! ShipmentsLoaded) return;
+    final current = state as ShipmentsLoaded;
+
+    final shopIds = current.selectedShopIds;
+    shopIds.add(event.shopId);
+    final filtered = _allItems.where((i) => shopIds.contains(i.shop.id)).toList();
+
+    emit(current.copyWith(
+      items: filtered,
+      selectedShopIds: shopIds,
+    ));
+  }
+
+  void _onFilterShopRemove(ShipmentsFilterShopRemoved event, Emitter<ShipmentsState> emit) {
+    if (state is! ShipmentsLoaded) return;
+    final current = state as ShipmentsLoaded;
+
+    final shopIds = current.selectedShopIds;
+    shopIds.remove(event.shopId);
+    final filtered = shopIds.isNotEmpty 
+        ? _allItems.where((i) => shopIds.contains(i.shop.id)).toList() 
+        : _allItems;
+
+    emit(current.copyWith(
+      items: filtered,
+      selectedShopIds: shopIds,
+    ));
   }
 }

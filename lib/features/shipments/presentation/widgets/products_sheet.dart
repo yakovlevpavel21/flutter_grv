@@ -69,7 +69,7 @@ List<StockDetailsEntity> expandProducts(List<ShipmentEntity> items, String shopN
   final Map<int, StockDetailsEntity> map = {};
 
   for (final sh in items) {
-    if (sh.shopName == shopName && sh.type == ShipmentType.shipment) {
+    if (sh.shop == shopName && sh.type == ShipmentType.shipment) {
       for (final pr in sh.stocks) {
         if (map.containsKey(pr.id)) {
           final existing = map[pr.id]!;

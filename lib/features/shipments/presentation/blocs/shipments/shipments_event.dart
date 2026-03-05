@@ -18,3 +18,19 @@ class ShipmentsTypeChanged extends ShipmentsEvent {
   @override
   List<Object?> get props => [type];
 }
+class ShipmentsFilterShopAdded extends ShipmentsEvent {
+  final int shopId;
+
+  ShipmentsFilterShopAdded(this.shopId);
+
+  @override
+  List<Object?> get props => [shopId];
+}
+class ShipmentsFilterShopRemoved extends ShipmentsEvent {
+  final int shopId;
+
+  ShipmentsFilterShopRemoved(this.shopId);
+
+  @override
+  List<Object?> get props => [shopId];
+}

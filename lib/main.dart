@@ -42,7 +42,7 @@ class GRVRoot extends StatelessWidget {
             create: (_) => ShipmentsBloc(ShipmentsRepositoryImpl())..add(LoadShipments()),
           ),
           BlocProvider<ShopsBloc>(
-            create: (_) => ShopsBloc(ShopsRepository()),
+            create: (_) => ShopsBloc(ShopsRepository())..add(LoadShops()),
           ),
           BlocProvider<ColorsBloc>(
             create: (_) => ColorsBloc(ColorEditRepositoryImpl())..add(LoadColors()),
