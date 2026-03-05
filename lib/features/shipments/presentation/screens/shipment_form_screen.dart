@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:grv/features/categories/presentation/blocs/categories/categories_bloc.dart';
 import 'package:grv/features/shipments/presentation/blocs/shipment_edit/shipment_edit_bloc.dart';
 import 'package:grv/features/shipments/presentation/blocs/shipments/shipments_bloc.dart';
 import 'package:grv/features/shipments/presentation/widgets/products_section.dart';
@@ -21,6 +22,8 @@ class _ShipmentFormScreenState extends State<ShipmentFormScreen> {
 
   @override
   void initState() {
+    context.read<CategoriesBloc>().add(LoadCategories());
+    context.read<ShopsBloc>().add(LoadShops());
     super.initState();
   }
 
@@ -71,6 +74,8 @@ class _ShipmentFormScreenState extends State<ShipmentFormScreen> {
 }
 
 class _BottomSaveButton extends StatelessWidget {
+  const _BottomSaveButton();
+
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<ShipmentEditBloc, ShipmentEditInitial>(
@@ -86,7 +91,7 @@ class _BottomSaveButton extends StatelessWidget {
         }
         if (state.status == ShipmentStatus.initial) {
           return IconButton(
-            onPressed: () => state.canSubmit
+            onPressed: state.canSubmit
                 ? () => context.read<ShipmentEditBloc>().add(ShipmentSubmitted())
                 : null,
             icon: Icon(Icons.done, color: state.canSubmit ? Colors.green : Colors.grey, size: 28),

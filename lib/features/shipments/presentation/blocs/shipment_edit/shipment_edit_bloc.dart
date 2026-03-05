@@ -59,7 +59,7 @@ class ShipmentEditBloc extends Bloc<ShipmentEditEvent, ShipmentEditInitial> {
 
   void _onChangeQuantityProduct(ShipmentProductQuantityChanged event, Emitter<ShipmentEditInitial> emit) {
     final updateItems = state.items.map((item) {
-      if (item.id == event.item.id) {
+      if (item.stock.id == event.stockId) {
         final safeQty = event.quantity.clamp(0, item.stock.quantity);
         return item.copyWith(quantity: safeQty);
       }

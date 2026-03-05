@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:grv/features/shipments/domain/entities/shipment_entity.dart';
-import 'package:grv/features/shipments/presentation/blocs/shipment_edit/shipment_edit_bloc.dart';
-import 'package:grv/features/shipments/presentation/blocs/shipments/shipments_bloc.dart';
 import 'package:grv/widgets/confirm_card.dart';
 
 class ShipmentDetailsSheet extends StatelessWidget {

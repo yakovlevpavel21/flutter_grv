@@ -11,53 +11,50 @@ class ShipmentTypeSelector extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<ShipmentEditBloc, ShipmentEditInitial>(
       builder: (context, state) {
-        if (state.status == ShipmentStatus.initial) {
-          return SizedBox(
-            width: double.infinity,
-            child: SegmentedButton<ShipmentType>(
-              style: ButtonStyle(
-                shape: WidgetStatePropertyAll(
-                  RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(5))
-                  )
-                ),
+        return SizedBox(
+          width: double.infinity,
+          child: SegmentedButton<ShipmentType>(
+            style: ButtonStyle(
+              shape: WidgetStatePropertyAll(
+                RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(5))
+                )
               ),
-              segments: [
-                ButtonSegment(
-                  value: ShipmentType.shipment,
-                  label: Text(
-                    'Отгрузка', 
-                    style: TextStyle(
-                      color: state.type == ShipmentType.shipment 
-                        ? Colors.green
-                        : const Color.fromARGB(255, 75, 75, 75)
-                    ),
+            ),
+            segments: [
+              ButtonSegment(
+                value: ShipmentType.shipment,
+                label: Text(
+                  'Отгрузка', 
+                  style: TextStyle(
+                    color: state.type == ShipmentType.shipment 
+                      ? Colors.green
+                      : const Color.fromARGB(255, 75, 75, 75)
                   ),
-                  //icon: IconByType(type: ShipmentType.shipment),
                 ),
-                ButtonSegment(
-                  value: ShipmentType.comeback,
-                  label: Text(
-                    'Возврат', 
-                    style: TextStyle(
-                      color: state.type == ShipmentType.comeback 
-                        ? Colors.red
-                        : const Color.fromARGB(255, 75, 75, 75)
-                    ),
+                //icon: IconByType(type: ShipmentType.shipment),
+              ),
+              ButtonSegment(
+                value: ShipmentType.comeback,
+                label: Text(
+                  'Возврат', 
+                  style: TextStyle(
+                    color: state.type == ShipmentType.comeback 
+                      ? Colors.red
+                      : const Color.fromARGB(255, 75, 75, 75)
                   ),
-                  //icon: IconByType(type: ShipmentType.comeback),
                 ),
-              ],
-              selected: {state.type},
-              onSelectionChanged: (value) {
-                context.read<ShipmentEditBloc>()
-                    .add(ShipmentTypeChanged(value.first));
-              },
-              selectedIcon: IconByType(type: state.type),
-            ), 
-          );
-        }
-        return const SizedBox();
+                //icon: IconByType(type: ShipmentType.comeback),
+              ),
+            ],
+            selected: {state.type},
+            onSelectionChanged: (value) {
+              context.read<ShipmentEditBloc>()
+                  .add(ShipmentTypeChanged(value.first));
+            },
+            selectedIcon: IconByType(type: state.type),
+          ), 
+        );
       },
     );
   }

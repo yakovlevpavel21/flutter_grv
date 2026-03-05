@@ -1,5 +1,3 @@
-import 'package:grv/data/models/shipment.dart';
-import 'package:grv/features/shipments/data/enums/shipment_type.dart';
 
 //extension ShipmentToShipmentUi on Shipment {
 //  ShipmentEntity toShipmentUi() {

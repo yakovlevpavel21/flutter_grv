@@ -46,13 +46,13 @@ class ShipmentProductRemoved extends ShipmentEditEvent {
   List<Object?> get props => [itemId];
 }
 class ShipmentProductQuantityChanged extends ShipmentEditEvent {
-  final StockShipmentEntity item;
+  final int stockId;
   final int quantity;
 
-  ShipmentProductQuantityChanged(this.item, this.quantity);
+  ShipmentProductQuantityChanged(this.stockId, this.quantity);
 
   @override
-  List<Object?> get props => [item, quantity];
+  List<Object?> get props => [stockId, quantity];
 }
 class ShipmentSubmitted extends ShipmentEditEvent {}
 class ShipmentDeleted extends ShipmentEditEvent {

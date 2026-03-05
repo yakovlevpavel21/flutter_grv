@@ -23,7 +23,7 @@ class SelectedProductTile extends StatelessWidget {
               onPressed: () {
                 if (item.quantity > 1) {
                   context.read<ShipmentEditBloc>()
-                    .add(ShipmentProductQuantityChanged(item, item.quantity - 1));
+                    .add(ShipmentProductQuantityChanged(item.stock.id, item.quantity - 1));
                 } else if (item.quantity == 1) {
                   context.read<ShipmentEditBloc>()
                     .add(ShipmentProductRemoved(item.stock.id,));
@@ -60,7 +60,7 @@ class SelectedProductTile extends StatelessWidget {
                       .add(ShipmentProductRemoved(item.stock.id,));
                   } else if (qty >= item.stock.quantity) {
                     context.read<ShipmentEditBloc>()
-                      .add(ShipmentProductQuantityChanged(item, item.stock.quantity));
+                      .add(ShipmentProductQuantityChanged(item.stock.id, item.stock.quantity));
                   }
                 },
               ),
@@ -70,7 +70,7 @@ class SelectedProductTile extends StatelessWidget {
               onPressed: () {
                 if (item.quantity < item.stock.quantity) {
                   context.read<ShipmentEditBloc>()
-                    .add(ShipmentProductQuantityChanged(item, item.quantity + 1));
+                    .add(ShipmentProductQuantityChanged(item.stock.id, item.quantity + 1));
                 }
               },
             ),

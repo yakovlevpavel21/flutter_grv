@@ -5,7 +5,6 @@ import 'package:grv/features/shipments/data/enums/shipment_type.dart';
 import 'package:grv/features/shipments/data/mappers/categories_to_stocks_mapper.dart';
 import 'package:grv/features/shipments/domain/entities/shipment_entity.dart';
 import 'package:grv/features/shipments/domain/entities/stock_details_entity.dart';
-import 'package:grv/features/shipments/domain/entities/stock_shipment_entity.dart';
 import 'package:grv/features/shipments/presentation/blocs/shipments/shipments_bloc.dart';
 import 'package:grv/features/shipments/presentation/widgets/product_tile.dart';
 
@@ -13,14 +12,14 @@ class ProductsSheet extends StatelessWidget {
   final BuildContext context;
   final ShipmentType type;
   final String shopName;
-  final List<StockShipmentEntity> selectedStocks;
+  final List<int> selectedStockIds;
 
   const ProductsSheet({
     super.key,
     required this.context,
     required this.type,
     required this.shopName,
-    required this.selectedStocks,
+    required this.selectedStockIds,
   });
 
   @override
@@ -40,7 +39,7 @@ class ProductsSheet extends StatelessWidget {
                   context: this.context, 
                   type: type,
                   stocks: stocks, 
-                  selectedStocks: selectedStocks,
+                  selectedStockIds: selectedStockIds,
                 );
               }
               return const SizedBox();
@@ -55,7 +54,7 @@ class ProductsSheet extends StatelessWidget {
                   context: this.context, 
                   type: type,
                   stocks: stocks, 
-                  selectedStocks: selectedStocks,
+                  selectedStockIds: selectedStockIds,
                 );
               }
               return const SizedBox();
@@ -90,13 +89,13 @@ class _ListProducts extends StatelessWidget {
   final BuildContext context;
   final ShipmentType type;
   final List<StockDetailsEntity> stocks;
-  final List<StockShipmentEntity> selectedStocks;
+  final List<int> selectedStockIds;
 
   const _ListProducts({
     required this.context,
     required this.type,
     required this.stocks,
-    required this.selectedStocks,
+    required this.selectedStockIds,
   });
 
   @override
@@ -130,7 +129,7 @@ class _ListProducts extends StatelessWidget {
               (p) => ProductTile(
                 context: this.context,
                 stockDetails: p,
-                selected: selectedStocks.any((i) => i.id == p.id),
+                selected: selectedStockIds.any((i) => i == p.id),
               ),
             ).toList(),
           ),

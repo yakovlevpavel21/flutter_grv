@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:grv/features/shipments/data/enums/shipment_type.dart';
-import 'package:grv/features/shipments/domain/entities/stock_shipment_entity.dart';
 import 'package:grv/features/shipments/presentation/blocs/shipment_edit/shipment_edit_bloc.dart';
 import 'package:grv/features/shipments/presentation/widgets/products_sheet.dart';
 import 'package:grv/features/shipments/presentation/widgets/selector_product_tile.dart';
@@ -13,66 +12,63 @@ class ProductsSection extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<ShipmentEditBloc, ShipmentEditInitial>(
       builder: (context, state) {
-        if (state.status == ShipmentStatus.initial) {
-          return Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const Text(
-                    'Товары',
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const Text(
+                  'Товары',
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+                ),
+                IconButton(
+                  icon: Icon(
+                    state.items.isEmpty ? Icons.add : Icons.edit,
+                    size: 21,
                   ),
-                  IconButton(
-                    icon: Icon(
-                      state.items.isEmpty ? Icons.add : Icons.edit,
-                      size: 21,
-                    ),
-                    onPressed: () => {
-                      _openProductsPicker(
-                        context, 
-                        state.type, 
-                        state.shop?.title ?? '', 
-                        state.items
-                      )
-                    },
-                  )
-                ],
-              ),
-              
-              const SizedBox(height: 12),
+                  onPressed: () => {
+                    _openProductsPicker(
+                      context: context, 
+                      type: state.type, 
+                      shopName: state.shop?.title ?? '', 
+                      selectedStockIds: state.items.map((i) => i.stock.id).toList()
+                    )
+                  },
+                )
+              ],
+            ),
+            
+            const SizedBox(height: 12),
 
-              if (state.items.isEmpty)
-                const Text('Необходимо выбрать хотя бы один товар'),
+            if (state.items.isEmpty)
+              const Text('Необходимо выбрать хотя бы один товар'),
 
-              ...state.items.map(
-                (item) => SelectedProductTile(item: item),
-              ),
-            ],
-          );
-        }
-        return const SizedBox();
+            ...state.items.map(
+              (item) => SelectedProductTile(item: item),
+            ),
+          ],
+        );
       },
     );
   }
 }
 
-void _openProductsPicker(
-  BuildContext context,
-  ShipmentType type,
-  String shopName,
-  List<StockShipmentEntity> items,
-) {
+void _openProductsPicker({
+  required BuildContext context,
+  required ShipmentType type,
+  required String shopName,
+  required List<int> selectedStockIds
+}) {
 
   showModalBottomSheet(
     context: context,
     isScrollControlled: true,
     builder: (_) => ProductsSheet(
       context: context,
-      shopName: shopName,
-      selectedStocks: items,
       type: type,
+      shopName: shopName,
+      selectedStockIds: selectedStockIds,
     ),
   );
 }

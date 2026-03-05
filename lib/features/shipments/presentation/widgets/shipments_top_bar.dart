@@ -26,7 +26,7 @@ class ShipmentsTopBar extends StatelessWidget {
             IconButton(
               icon: Icon(
                 Icons.filter_list,
-                color: hasFilters ? Colors.blue : Colors.grey,
+                color: hasFilters ? Colors.black : Colors.grey,
               ),
               onPressed: onFiltersTap,
             ),
