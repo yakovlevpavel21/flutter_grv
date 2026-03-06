@@ -80,7 +80,7 @@ class ShipmentCard extends StatelessWidget {
         borderRadius:
             BorderRadius.vertical(top: Radius.circular(20)),
       ),
-      builder: (_) => ShipmentDetailsSheet(item: item),
+      builder: (_) => ShipmentDetailsSheet(shipment: item),
     );
   }
 }

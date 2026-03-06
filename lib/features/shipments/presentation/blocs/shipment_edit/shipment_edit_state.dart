@@ -1,6 +1,6 @@
 part of "shipment_edit_bloc.dart";
 
-enum ShipmentStatus { initial, loading, success, error }
+enum ShipmentEditStatus { initial, loading, success, error }
 
 class ShipmentEditInitial extends Equatable {
   final int? id;
@@ -9,7 +9,7 @@ class ShipmentEditInitial extends Equatable {
   final ShopItemUi? shop;
   final List<StockShipmentEntity> items;
   final List<Shop> availableShops;
-  final ShipmentStatus status;
+  final ShipmentEditStatus status;
   final String? errorMessage;
 
   const ShipmentEditInitial({
@@ -34,7 +34,7 @@ class ShipmentEditInitial extends Equatable {
     ShopItemUi? shop,
     List<StockShipmentEntity>? items,
     List<Shop>? availableShops,
-    ShipmentStatus? status,
+    ShipmentEditStatus? status,
     String? errorMessage,
   }) {
     return ShipmentEditInitial(
@@ -56,7 +56,7 @@ class ShipmentEditInitial extends Equatable {
       shop: null,
       items: const [],
       availableShops: const [],
-      status: ShipmentStatus.initial,
+      status: ShipmentEditStatus.initial,
     );
   }
 

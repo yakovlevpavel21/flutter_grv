@@ -78,9 +78,9 @@ class _BigCell extends StatelessWidget {
         )
         : Text(
           '$value',
-          style: const TextStyle(
+          style: TextStyle(
             fontSize: 16,
-            fontWeight: FontWeight.bold,
+            fontWeight: FontWeight.normal,
           ),
         ),
     );
@@ -102,7 +102,11 @@ class _StageCell extends StatelessWidget {
       children: [
         Text(
           '${cell.packedCount}', // Крупно - упакованные
-          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+          style: TextStyle(
+            fontSize: 16, 
+            fontWeight: FontWeight.bold,
+            color: cell.packedCount == 0 ? Colors.grey : Colors.black,
+          ),
         ),
         if (cell.builtCount > 0)
           Text(

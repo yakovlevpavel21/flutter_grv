@@ -30,7 +30,7 @@ class ShipmentEditRepositoryImpl implements ShipmentEditRepository{
   @override
   Future<void> deleteShipment({ required int id }) async {
     await supabase.rpc(
-      'delete_shipment_with_items',
+      'delete_shipment',
       params: {
         'p_shipment_id': id
       }

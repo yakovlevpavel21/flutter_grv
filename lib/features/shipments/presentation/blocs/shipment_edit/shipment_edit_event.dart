@@ -58,7 +58,7 @@ class ShipmentSubmitted extends ShipmentEditEvent {}
 class ShipmentDeleted extends ShipmentEditEvent {
   final int id;
 
-  ShipmentDeleted(this.id);
+  ShipmentDeleted({required this.id});
 
   @override
   List<Object?> get props => [id];

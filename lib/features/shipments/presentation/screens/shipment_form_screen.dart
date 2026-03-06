@@ -80,16 +80,17 @@ class _BottomSaveButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocConsumer<ShipmentEditBloc, ShipmentEditInitial>(
       listener: (context, state) {
-        if (state.status == ShipmentStatus.success) {
+        if (state.status == ShipmentEditStatus.success) {
           context.read<ShipmentsBloc>().add(LoadShipments());
+          context.read<CategoriesBloc>().add(LoadCategories());
           context.pop();
         }
       },
       builder: (context, state) {
-        if (state.status == ShipmentStatus.loading) {
+        if (state.status == ShipmentEditStatus.loading) {
           return Center(child: CircularProgressIndicator());
         }
-        if (state.status == ShipmentStatus.initial) {
+        if (state.status == ShipmentEditStatus.initial) {
           return IconButton(
             onPressed: state.canSubmit
                 ? () => context.read<ShipmentEditBloc>().add(ShipmentSubmitted())
@@ -97,7 +98,7 @@ class _BottomSaveButton extends StatelessWidget {
             icon: Icon(Icons.done, color: state.canSubmit ? Colors.green : Colors.grey, size: 28),
           );
         }
-        if (state.status == ShipmentStatus.error) {
+        if (state.status == ShipmentEditStatus.error) {
           return ErrorCard(
             title: 'Ошибка', 
             description: state.errorMessage ?? '', 

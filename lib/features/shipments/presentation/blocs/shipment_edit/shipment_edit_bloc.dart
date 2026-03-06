@@ -73,7 +73,7 @@ class ShipmentEditBloc extends Bloc<ShipmentEditEvent, ShipmentEditInitial> {
   Future<void> _onSubmit(ShipmentSubmitted event, Emitter<ShipmentEditInitial> emit) async {
     try {
       emit(state.copyWith(
-        status: ShipmentStatus.loading
+        status: ShipmentEditStatus.loading
       ));
       await repository.createShipment(
         createdAt: state.dateTime, 
@@ -82,11 +82,11 @@ class ShipmentEditBloc extends Bloc<ShipmentEditEvent, ShipmentEditInitial> {
         items: state.items, 
       );
       emit(state.copyWith(
-        status: ShipmentStatus.success
+        status: ShipmentEditStatus.success
       ));
     } catch (e){
       emit(state.copyWith(
-        status: ShipmentStatus.error,
+        status: ShipmentEditStatus.error,
         errorMessage: e.toString()
       ));
     }
@@ -95,15 +95,15 @@ class ShipmentEditBloc extends Bloc<ShipmentEditEvent, ShipmentEditInitial> {
   Future<void> _onDelete(ShipmentDeleted event, Emitter<ShipmentEditInitial> emit) async {
     try {
       emit(state.copyWith(
-        status: ShipmentStatus.loading
+        status: ShipmentEditStatus.loading
       ));
       await repository.deleteShipment(id: event.id);
       emit(state.copyWith(
-        status: ShipmentStatus.success
+        status: ShipmentEditStatus.success
       ));
     } catch (e) {
       emit(state.copyWith(
-        status: ShipmentStatus.error,
+        status: ShipmentEditStatus.error,
         errorMessage: e.toString()
       ));
     }
