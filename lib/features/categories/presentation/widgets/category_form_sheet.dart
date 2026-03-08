@@ -18,21 +18,18 @@ class CategoryFormSheet extends StatefulWidget {
 class _CategoryFormSheetState extends State<CategoryFormSheet> {
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.all(16),
-      child: BlocProvider(
-        create: (_) => CategoryBloc(
-          repository: CategoryEditRepositoryImpl(),
-          categoryEntity: widget.category,
-        ),
-        child: BlocListener<CategoryBloc, CategoryInitial>(
-          listenWhen: (p, c) => c.status == CategoryStatus.success,
-          listener: (context, state) {
-            Navigator.pop(context);
-            widget.categoriesBloc.add(LoadCategories());
-          },
-          child: _CategoryFormBody(),
-        ),
+    return BlocProvider(
+      create: (_) => CategoryBloc(
+        repository: CategoryEditRepositoryImpl(),
+        categoryEntity: widget.category,
+      ),
+      child: BlocListener<CategoryBloc, CategoryInitial>(
+        listenWhen: (p, c) => c.status == CategoryStatus.success,
+        listener: (context, state) {
+          Navigator.pop(context);
+          widget.categoriesBloc.add(LoadCategories());
+        },
+        child: _CategoryFormBody(),
       ),
     );
   }

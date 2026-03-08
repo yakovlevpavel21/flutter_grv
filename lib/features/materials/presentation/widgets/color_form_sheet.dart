@@ -20,21 +20,18 @@ class ColorFormSheet extends StatefulWidget {
 class _ColorFormSheetState extends State<ColorFormSheet> {
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.all(16),
-      child: BlocProvider(
-        create: (_) => ColorBloc(
-          repository: ColorEditRepositoryImpl(), 
-          initialColor: widget.color
-        ),
-        child: BlocListener<ColorBloc, ColorInitial>(
-          listenWhen: (p, c) => c.status == ColorStatus.success,
-          listener: (context, state) {
-            Navigator.pop(context);
-            widget.colorsBloc.add(LoadColors());
-          },
-          child: const _ColorFormBody(),
-        ),
+    return BlocProvider(
+      create: (_) => ColorBloc(
+        repository: ColorEditRepositoryImpl(), 
+        initialColor: widget.color
+      ),
+      child: BlocListener<ColorBloc, ColorInitial>(
+        listenWhen: (p, c) => c.status == ColorStatus.success,
+        listener: (context, state) {
+          Navigator.pop(context);
+          widget.colorsBloc.add(LoadColors());
+        },
+        child: const _ColorFormBody(),
       ),
     );
   }

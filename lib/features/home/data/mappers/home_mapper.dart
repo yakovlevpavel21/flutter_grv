@@ -38,28 +38,31 @@ class HomeUiMapper {
     // 2. Для каждого цвета формируем строку
     final rows = allColors.map((color) {
       // Считаем Raw для этого цвета
-      final rawCount = product.stocks.values
-          .where((s) => s.color.id == color.id && s.state == StockState.raw)
-          .fold(0, (sum, s) => sum + s.quantity);
+      final raw = product.stocks.values
+          .firstWhere((s) => s.color.id == color.id && s.state == StockState.raw);
 
       // Для каждого варианта ищем значения этого цвета
       final variantCells = variants.map((variant) {
         final variantStocks = variant.stocks.values.where((s) => s.color.id == color.id);
         
         final built = variantStocks
-            .where((s) => s.state == StockState.built)
-            .fold(0, (sum, s) => sum + s.quantity);
+            .firstWhere((s) => s.state == StockState.built);
             
         final packed = variantStocks
-            .where((s) => s.state == StockState.packed)
-            .fold(0, (sum, s) => sum + s.quantity);
+            .firstWhere((s) => s.state == StockState.packed);
 
-        return HomeVariantCellUi(builtCount: built, packedCount: packed);
+        return HomeVariantCellUi(
+          builtId: built.id, 
+          builtCount: built.quantity, 
+          packedId: packed.id,
+          packedCount: packed.quantity,
+        );
       }).toList();
 
       return HomeTableRowUi(
+        stockRawId: raw.id,
         color: color,
-        rawCount: rawCount,
+        rawCount: raw.quantity,
         variantCells: variantCells,
       );
     }).toList();

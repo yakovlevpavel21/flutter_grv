@@ -25,22 +25,19 @@ class StockFormSheet extends StatefulWidget {
 class _StockFormSheetState extends State<StockFormSheet> {
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.all(16),
-      child: BlocProvider(
-        create: (_) => StockBloc(
-          repository: StockEditRepositoryImpl(),
-          state: widget.stock.state,
-          stockEntity: widget.stock,
-        ),
-        child: BlocListener<StockBloc, StockInitial>(
-          listenWhen: (p, c) => c.status == StockStatus.success,
-          listener: (context, state) {
-            Navigator.pop(context);
-            widget.categoriesBloc.add(LoadCategories());
-          },
-          child: _StockFormBody(),
-        ),
+    return BlocProvider(
+      create: (_) => StockBloc(
+        repository: StockEditRepositoryImpl(),
+        state: widget.stock.state,
+        stockEntity: widget.stock,
+      ),
+      child: BlocListener<StockBloc, StockInitial>(
+        listenWhen: (p, c) => c.status == StockStatus.success,
+        listener: (context, state) {
+          Navigator.pop(context);
+          widget.categoriesBloc.add(LoadCategories());
+        },
+        child: _StockFormBody(),
       ),
     );
   }

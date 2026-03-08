@@ -30,23 +30,20 @@ class UncollectedStockFormSheet extends StatefulWidget {
 class _UncollectedStockFormSheetState extends State<UncollectedStockFormSheet> {
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.all(16),
-      child: BlocProvider(
-        create: (_) => StockBloc(
-          repository: StockEditRepositoryImpl(),
-          productId: widget.productId,
-          state: StockState.raw,
-          stockEntity: widget.stock,
-        ),
-        child: BlocListener<StockBloc, StockInitial>(
-          listenWhen: (p, c) => c.status == StockStatus.success,
-          listener: (context, state) {
-            Navigator.pop(context);
-            widget.categoriesBloc.add(LoadCategories());
-          },
-          child: _StockUncollectedFormBody(colorsBloc: widget.colorsBloc),
-        ),
+    return BlocProvider(
+      create: (_) => StockBloc(
+        repository: StockEditRepositoryImpl(),
+        productId: widget.productId,
+        state: StockState.raw,
+        stockEntity: widget.stock,
+      ),
+      child: BlocListener<StockBloc, StockInitial>(
+        listenWhen: (p, c) => c.status == StockStatus.success,
+        listener: (context, state) {
+          Navigator.pop(context);
+          widget.categoriesBloc.add(LoadCategories());
+        },
+        child: _StockUncollectedFormBody(colorsBloc: widget.colorsBloc),
       ),
     );
   }

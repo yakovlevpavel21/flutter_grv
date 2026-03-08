@@ -23,22 +23,19 @@ class VariantFormSheet extends StatefulWidget {
 class _VariantFormSheetState extends State<VariantFormSheet> {
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.all(16),
-      child: BlocProvider(
-        create: (_) => VariantBloc(
-          repository: VariantEditRepositoryImpl(),
-          variantEntity: widget.variant,
-          productId: widget.productId
-        ),
-        child: BlocListener<VariantBloc, VariantInitial>(
-          listenWhen: (p, c) => c.status == VariantStatus.success,
-          listener: (context, state) {
-            Navigator.pop(context);
-            widget.categoriesBloc.add(LoadCategories());
-          },
-          child: _VariantFormBody(),
-        ),
+    return BlocProvider(
+      create: (_) => VariantBloc(
+        repository: VariantEditRepositoryImpl(),
+        variantEntity: widget.variant,
+        productId: widget.productId
+      ),
+      child: BlocListener<VariantBloc, VariantInitial>(
+        listenWhen: (p, c) => c.status == VariantStatus.success,
+        listener: (context, state) {
+          Navigator.pop(context);
+          widget.categoriesBloc.add(LoadCategories());
+        },
+        child: _VariantFormBody(),
       ),
     );
   }

@@ -1,64 +1,37 @@
 import 'package:flutter/material.dart';
 import 'package:grv/features/home/data/models/home_table_row.dart';
 import 'package:grv/features/home/data/models/home_variant_cell.dart';
-import 'package:grv/features/materials/domain/entities/color_entity.dart';
+import 'package:grv/features/home/presentation/widgets/color_cell.dart';
 
 class TableRowWidget extends StatelessWidget {
   final HomeTableRowUi row;
-  const TableRowWidget({super.key, required this.row});
+  final VoidCallback onTap;
+  const TableRowWidget({super.key, required this.row, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 10),
-      child: Row(
-        children: [
-          // Колонка цвета
-          Expanded(flex: 1, child: _ColorCell(row.color)), 
-          // Колонка Raw (Не собранные)
-          Expanded(flex: 1, child: _BigCell(row.rawCount)),
-          // Колонки вариантов
-          ...row.variantCells.map(
-            (cell) => Expanded(flex: 1, child: _StageCell(cell: cell)),
-          ),
-        ],
+      child: InkWell(
+        onTap: onTap,
+        child: Row(
+          children: [
+            // Колонка цвета
+            Expanded(flex: 1, child: ColorCell(colorEntity: row.color)), 
+            // Колонка Raw (Не собранные)
+            Expanded(flex: 1, child: _BigCell(row.rawCount)),
+            // Колонки вариантов
+            ...row.variantCells.map(
+              (cell) => Expanded(flex: 1, child: _StageCell(cell: cell)),
+            ),
+          ],
+        ),
       ),
     );
   }
 }
 
-class _ColorCell extends StatelessWidget {
-  final ColorEntity color;
 
-  const _ColorCell(this.color);
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Container(
-          width: 20,
-          height: 20,
-          decoration: BoxDecoration(
-            color: color.color,
-            borderRadius: BorderRadius.circular(4),
-            border: Border.all(color: Colors.black, width: 0.3),
-          ),
-        ),
-        const SizedBox(width: 10),
-        Expanded(
-          child: Text(
-            color.name,
-            overflow: TextOverflow.ellipsis,
-            style: const TextStyle(
-              fontSize: 12,
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-}
 
 class _BigCell extends StatelessWidget {
   final int value;

@@ -19,22 +19,19 @@ class ProductFormSheet extends StatefulWidget {
 class _ProductFormSheetState extends State<ProductFormSheet> {
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.all(16),
-      child: BlocProvider(
-        create: (_) => ProductBloc(
-          repository: ProductEditRepositoryImpl(),
-          categoryId: widget.categoryId,
-          productEntity: widget.product
-        ),
-        child: BlocListener<ProductBloc, ProductInitial>(
-          listenWhen: (p, c) => c.status == ProductStatus.success,
-          listener: (context, state) {
-            Navigator.pop(context);
-            widget.categoriesBloc.add(LoadCategories());
-          },
-          child: _ProductFormBody(),
-        ),
+    return BlocProvider(
+      create: (_) => ProductBloc(
+        repository: ProductEditRepositoryImpl(),
+        categoryId: widget.categoryId,
+        productEntity: widget.product
+      ),
+      child: BlocListener<ProductBloc, ProductInitial>(
+        listenWhen: (p, c) => c.status == ProductStatus.success,
+        listener: (context, state) {
+          Navigator.pop(context);
+          widget.categoriesBloc.add(LoadCategories());
+        },
+        child: _ProductFormBody(),
       ),
     );
   }

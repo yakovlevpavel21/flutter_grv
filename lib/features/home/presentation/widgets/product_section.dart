@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:collection/collection.dart';
 import 'package:grv/features/home/data/models/home_product.dart';
+import 'package:grv/features/home/presentation/widgets/stock_edit_sheet.dart';
 import 'package:grv/features/home/presentation/widgets/table_header.dart';
 import 'package:grv/features/home/presentation/widgets/table_row_widget.dart';
 
@@ -26,7 +28,19 @@ class ProductSection extends StatelessWidget {
             children: [
               TableHeader(variants: ui.variantNames), // Передаем список строк
               const Divider(height: 1),
-              ...ui.rows.map((r) => TableRowWidget(row: r)),
+              ...ui.rows.mapIndexed((index, r) => TableRowWidget(
+                row: r,
+                onTap: () {
+                  showModalBottomSheet(
+                    context: context, 
+                    isScrollControlled: true,
+                    builder: (_) => StockEditSheet(
+                      productRowUi: ui, 
+                      tableRowIndex: index
+                    )
+                  );
+                },
+              )),
             ],
           ),
         ),
