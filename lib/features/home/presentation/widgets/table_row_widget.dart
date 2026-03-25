@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:grv/features/home/data/models/home_table_row.dart';
-import 'package:grv/features/home/data/models/home_variant_cell.dart';
+import 'package:grv/features/home/domain/entities/home_table_row_entity.dart';
+import 'package:grv/features/home/domain/entities/home_variant_cell_entity.dart';
 import 'package:grv/features/home/presentation/widgets/color_cell.dart';
 
 class TableRowWidget extends StatelessWidget {
-  final HomeTableRowUi row;
+  final HomeTableRowEntity row;
   final VoidCallback onTap;
   const TableRowWidget({super.key, required this.row, required this.onTap});
 
@@ -61,7 +61,7 @@ class _BigCell extends StatelessWidget {
 }
 
 class _StageCell extends StatelessWidget {
-  final HomeVariantCellUi cell;
+  final HomeVariantCellEntity cell;
   const _StageCell({required this.cell});
 
   @override

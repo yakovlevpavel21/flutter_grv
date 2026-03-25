@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:grv/features/home/data/models/home_category.dart';
+import 'package:grv/features/home/domain/entities/home_category_entity.dart';
 import 'package:grv/features/home/presentation/widgets/product_section.dart';
 
 class CategorySection extends StatelessWidget {
-  final HomeCategoryUi ui;
+  final HomeCategoryEntity ui;
 
   const CategorySection({super.key, required this.ui});
 

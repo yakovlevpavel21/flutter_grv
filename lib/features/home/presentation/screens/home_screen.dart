@@ -14,7 +14,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  final HomeUiMapper mapper = HomeUiMapper();
+  final HomeMapper mapper = HomeMapper();
   
   @override
   void initState() {

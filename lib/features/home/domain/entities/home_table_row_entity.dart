@@ -1,13 +1,13 @@
-import 'package:grv/features/home/data/models/home_variant_cell.dart';
+import 'package:grv/features/home/domain/entities/home_variant_cell_entity.dart';
 import 'package:grv/features/materials/domain/entities/color_entity.dart';
 
-class HomeTableRowUi {
+class HomeTableRowEntity {
   final int stockRawId;
   final ColorEntity color;
   final int rawCount;
-  final List<HomeVariantCellUi> variantCells; // По одной ячейке на каждый вариант из variantNames
+  final List<HomeVariantCellEntity> variantCells; // По одной ячейке на каждый вариант из variantNames
 
-  HomeTableRowUi({
+  HomeTableRowEntity({
     required this.stockRawId, 
     required this.color, 
     required this.rawCount, 

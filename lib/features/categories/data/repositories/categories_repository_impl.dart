@@ -35,7 +35,7 @@ class CategoriesRepositoryImpl implements CategoriesRepository{
             )
           )
         ''')
-        .timeout(Duration(seconds: 5));
+        .timeout(Duration(seconds: 10));
     return (response as List)
         .map((categoryJson) => CategoryModel.fromJson(categoryJson))
         .toList();

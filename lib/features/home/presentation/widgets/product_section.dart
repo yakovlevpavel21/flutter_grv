@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:collection/collection.dart';
-import 'package:grv/features/home/data/models/home_product.dart';
+import 'package:grv/features/home/domain/entities/home_product_entity.dart';
 import 'package:grv/features/home/presentation/widgets/stock_edit_sheet.dart';
 import 'package:grv/features/home/presentation/widgets/table_header.dart';
 import 'package:grv/features/home/presentation/widgets/table_row_widget.dart';
 
 class ProductSection extends StatelessWidget {
-  final HomeProductUi ui;
+  final HomeProductEntity ui;
   const ProductSection({super.key, required this.ui});
 
   @override

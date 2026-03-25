@@ -53,15 +53,15 @@ class SelectedProductTile extends StatelessWidget {
                   border: OutlineInputBorder(),
                 ),
                 onChanged: (value) {
-                  final qty = int.tryParse(value) ?? 0;
+                  int qty = int.tryParse(value) ?? 0;
                   
                   if (qty <= 0) {
-                    context.read<ShipmentEditBloc>()
-                      .add(ShipmentProductRemoved(item.stock.id,));
+                    qty = 0;
                   } else if (qty >= item.stock.quantity) {
-                    context.read<ShipmentEditBloc>()
-                      .add(ShipmentProductQuantityChanged(item.stock.id, item.stock.quantity));
+                    qty = item.stock.quantity;
                   }
+                  context.read<ShipmentEditBloc>()
+                    .add(ShipmentProductQuantityChanged(item.stock.id, qty));
                 },
               ),
             ),

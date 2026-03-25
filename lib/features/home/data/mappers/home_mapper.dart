@@ -1,24 +1,24 @@
 import 'package:grv/features/categories/domain/entities/category_entity.dart';
 import 'package:grv/features/categories/domain/entities/product_entity.dart';
 import 'package:grv/features/categories/domain/enums/stock_state.dart';
-import 'package:grv/features/home/data/models/home_category.dart';
-import 'package:grv/features/home/data/models/home_model.dart';
-import 'package:grv/features/home/data/models/home_product.dart';
-import 'package:grv/features/home/data/models/home_table_row.dart';
-import 'package:grv/features/home/data/models/home_variant_cell.dart';
+import 'package:grv/features/home/domain/entities/home_category_entity.dart';
+import 'package:grv/features/home/domain/entities/home_entity.dart';
+import 'package:grv/features/home/domain/entities/home_product_entity.dart';
+import 'package:grv/features/home/domain/entities/home_table_row_entity.dart';
+import 'package:grv/features/home/domain/entities/home_variant_cell_entity.dart';
 import 'package:grv/features/materials/domain/entities/color_entity.dart';
 
-class HomeUiMapper {
-  HomeUiModel map(List<CategoryEntity> categories) {
-    return HomeUiModel(
-      categories.map((category) => HomeCategoryUi(
+class HomeMapper {
+  HomeEntity map(List<CategoryEntity> categories) {
+    return HomeEntity(
+      categories.map((category) => HomeCategoryEntity(
         name: category.name,
         products: category.products.values.map(_mapProduct).toList(),
       )).toList(),
     );
   }
 
-  HomeProductUi _mapProduct(ProductEntity product) {
+  HomeProductEntity _mapProduct(ProductEntity product) {
     final variants = product.variants.values.toList();
     
     // 1. Собираем все уникальные цвета, которые есть в этом продукте (в raw и во всех вариантах)
@@ -51,15 +51,15 @@ class HomeUiMapper {
         final packed = variantStocks
             .firstWhere((s) => s.state == StockState.packed);
 
-        return HomeVariantCellUi(
-          builtId: built.id, 
+        return HomeVariantCellEntity(
+          stockBuiltId: built.id, 
           builtCount: built.quantity, 
-          packedId: packed.id,
+          stockPackedId: packed.id,
           packedCount: packed.quantity,
         );
       }).toList();
 
-      return HomeTableRowUi(
+      return HomeTableRowEntity(
         stockRawId: raw.id,
         color: color,
         rawCount: raw.quantity,
@@ -67,7 +67,7 @@ class HomeUiMapper {
       );
     }).toList();
 
-    return HomeProductUi(
+    return HomeProductEntity(
       name: product.name,
       variantNames: variants.map((v) => v.name).toList(),
       rows: rows,
