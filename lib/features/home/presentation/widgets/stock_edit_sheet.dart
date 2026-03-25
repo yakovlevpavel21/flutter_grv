@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -7,7 +5,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:grv/features/categories/presentation/blocs/categories/categories_bloc.dart';
 import 'package:grv/features/home/data/repositories/stock_edit_repository_impl.dart';
 import 'package:grv/features/home/domain/entities/home_product_entity.dart';
-import 'package:grv/features/home/domain/entities/home_table_row_entity.dart';
 import 'package:grv/features/home/domain/entities/home_variant_cell_entity.dart';
 import 'package:grv/features/home/presentation/blocs/stock_edit_bloc.dart';
 import 'package:grv/features/home/presentation/widgets/color_cell.dart';
